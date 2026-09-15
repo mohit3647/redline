@@ -1,7 +1,7 @@
 # Redline
 
-A web app that reads a contract, lease, freelance agreement, or terms of service and tells the
-reader what they are actually signing.
+A web app that reads a contract, lease, or freelance agreement and tells the reader what they are
+actually signing. v1: freelancers, pre-signature, negotiable documents only (ADR 0002).
 
 ## Capabilities in scope
 
@@ -13,6 +13,9 @@ Build these and stop:
 - A question box that answers only from the document
 - An editable list of the user's own red lines, which drives the analysis
 - A saved library of past documents
+- A cleared list of the clauses checked and found acceptable (ADR 0004)
+- A pre-upload disclosure that analysis leaves the browser, and a flag on the document's own
+  confidentiality clause (ADR 0005)
 
 ## Settled decisions — do not reopen
 
@@ -21,6 +24,7 @@ Build these and stop:
 - The model is called through OpenRouter.
 - Every risk flag cites the exact sentence it came from. A flag whose source sentence cannot be
   shown is a bug, not a degraded result.
+- Severity is expected cost to the signer; danger is absolute, not relative to market (ADR 0003).
 
 ## Deliberately excluded
 
