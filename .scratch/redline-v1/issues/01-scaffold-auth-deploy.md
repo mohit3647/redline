@@ -18,9 +18,17 @@ Stack, settled 2026-09-16 (CLAUDE.md listed these three as open until now):
   than reviewable diffs. Cost: Docker is a prerequisite for every contributor.
 - Next.js, Supabase auth, Vercel — already settled in CLAUDE.md.
 
-- [ ] Next.js app, managed with pnpm, deploys to Vercel
-- [ ] The root `vercel.json` that serves `design/landing` as a static site (no framework, no build) is removed or replaced, so Vercel builds the Next.js app
+- [x] Next.js app, managed with pnpm, deploys to Vercel
+- [x] The root `vercel.json` that serves `design/landing` as a static site (no framework, no build) is removed or replaced, so Vercel builds the Next.js app
 - [ ] Supabase runs locally via its CLI; the schema exists only as committed migrations
 - [ ] A signer can sign in by email magic link and sign out
 - [ ] Every credential lives in `.env.local`; nothing secret is committed (the repo is public)
 - [ ] Every dependency beyond Next.js and the Supabase client is raised with the human before it is added
+
+## Comments
+
+**2026-09-17 — partly done.** A minimal Next.js 16 app (App Router, TypeScript,
+pnpm 10) now exists at the repo root, and its only route, `/`, is the landing page
+ported from `design/landing/`. `vercel.json` is gone. Still open: local Supabase,
+sign-in, and the `/sign-in` route that the landing page already links to.
+

@@ -10,8 +10,8 @@ web
 
 Next.js, managed with pnpm; Supabase for auth and database, run locally through its CLI with the
 schema as committed migrations; deployed on Vercel. The model is Claude Sonnet 5 through OpenRouter,
-routed only to zero-data-retention endpoints. Settled 2026-09-16; no application code exists yet.
-Implementation tickets are in `.scratch/redline-v1/issues/`.
+routed only to zero-data-retention endpoints. Settled 2026-09-16. A minimal Next.js app serving the landing page exists; Supabase and sign-in
+do not yet. Implementation tickets are in `.scratch/redline-v1/issues/`.
 
 ## Users
 
