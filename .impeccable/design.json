@@ -1,0 +1,573 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-16T19:03:35+00:00",
+  "title": "Design System: Redline",
+  "extensions": {
+    "colorMeta": {
+      "field": {
+        "role": "primary",
+        "displayName": "Ultramarine Field",
+        "canonical": "#1d2c86",
+        "oklch": "oklch(34.7% 0.150 269.2)",
+        "tonalRamp": [
+          "oklch(15% 0.080 269.2)",
+          "oklch(26% 0.108 269.2)",
+          "oklch(37% 0.135 269.2)",
+          "oklch(48% 0.150 269.2)",
+          "oklch(60% 0.150 269.2)",
+          "oklch(72% 0.138 269.2)",
+          "oklch(84% 0.108 269.2)",
+          "oklch(95% 0.080 269.2)"
+        ]
+      },
+      "field-deep": {
+        "role": "primary",
+        "displayName": "Deep Ultramarine",
+        "canonical": "#141f63",
+        "oklch": "oklch(28.2% 0.120 269.6)",
+        "tonalRamp": [
+          "oklch(15% 0.070 269.6)",
+          "oklch(26% 0.092 269.6)",
+          "oklch(37% 0.114 269.6)",
+          "oklch(48% 0.120 269.6)",
+          "oklch(60% 0.120 269.6)",
+          "oklch(72% 0.116 269.6)",
+          "oklch(84% 0.092 269.6)",
+          "oklch(95% 0.070 269.6)"
+        ]
+      },
+      "crit": {
+        "role": "secondary",
+        "displayName": "Vermilion Stock",
+        "canonical": "#ea4520",
+        "oklch": "oklch(62.6% 0.207 33.7)",
+        "tonalRamp": [
+          "oklch(15% 0.099 33.7)",
+          "oklch(26% 0.137 33.7)",
+          "oklch(37% 0.175 33.7)",
+          "oklch(48% 0.207 33.7)",
+          "oklch(60% 0.207 33.7)",
+          "oklch(72% 0.179 33.7)",
+          "oklch(84% 0.137 33.7)",
+          "oklch(95% 0.099 33.7)"
+        ]
+      },
+      "serious": {
+        "role": "secondary",
+        "displayName": "Chrome Yellow Stock",
+        "canonical": "#f2c230",
+        "oklch": "oklch(83.4% 0.158 89.0)",
+        "tonalRamp": [
+          "oklch(15% 0.083 89.0)",
+          "oklch(26% 0.112 89.0)",
+          "oklch(37% 0.141 89.0)",
+          "oklch(48% 0.158 89.0)",
+          "oklch(60% 0.158 89.0)",
+          "oklch(72% 0.144 89.0)",
+          "oklch(84% 0.112 89.0)",
+          "oklch(95% 0.083 89.0)"
+        ]
+      },
+      "serious-line": {
+        "role": "secondary",
+        "displayName": "Tarnished Ochre",
+        "canonical": "#a57600",
+        "oklch": "oklch(59.8% 0.124 80.7)",
+        "tonalRamp": [
+          "oklch(15% 0.071 80.7)",
+          "oklch(26% 0.094 80.7)",
+          "oklch(37% 0.116 80.7)",
+          "oklch(48% 0.124 80.7)",
+          "oklch(60% 0.124 80.7)",
+          "oklch(72% 0.119 80.7)",
+          "oklch(84% 0.094 80.7)",
+          "oklch(95% 0.071 80.7)"
+        ]
+      },
+      "focus": {
+        "role": "secondary",
+        "displayName": "Focus Yellow",
+        "canonical": "#f2c230",
+        "oklch": "oklch(83.4% 0.158 89.0)",
+        "tonalRamp": [
+          "oklch(15% 0.083 89.0)",
+          "oklch(26% 0.112 89.0)",
+          "oklch(37% 0.141 89.0)",
+          "oklch(48% 0.158 89.0)",
+          "oklch(60% 0.158 89.0)",
+          "oklch(72% 0.144 89.0)",
+          "oklch(84% 0.112 89.0)",
+          "oklch(95% 0.083 89.0)"
+        ]
+      },
+      "kraft": {
+        "role": "tertiary",
+        "displayName": "Kraft Stock",
+        "canonical": "#bf9259",
+        "oklch": "oklch(69.0% 0.092 71.9)",
+        "tonalRamp": [
+          "oklch(15% 0.061 71.9)",
+          "oklch(26% 0.078 71.9)",
+          "oklch(37% 0.092 71.9)",
+          "oklch(48% 0.092 71.9)",
+          "oklch(60% 0.092 71.9)",
+          "oklch(72% 0.092 71.9)",
+          "oklch(84% 0.078 71.9)",
+          "oklch(95% 0.061 71.9)"
+        ]
+      },
+      "blank": {
+        "role": "tertiary",
+        "displayName": "Lavender Blank",
+        "canonical": "#dfe3fb",
+        "oklch": "oklch(92.0% 0.033 278.2)",
+        "tonalRamp": [
+          "oklch(15% 0.033 278.2)",
+          "oklch(26% 0.033 278.2)",
+          "oklch(37% 0.033 278.2)",
+          "oklch(48% 0.033 278.2)",
+          "oklch(60% 0.033 278.2)",
+          "oklch(72% 0.033 278.2)",
+          "oklch(84% 0.033 278.2)",
+          "oklch(95% 0.033 278.2)"
+        ]
+      },
+      "notice-string": {
+        "role": "tertiary",
+        "displayName": "Periwinkle String",
+        "canonical": "#a9b4f2",
+        "oklch": "oklch(78.4% 0.089 276.4)",
+        "tonalRamp": [
+          "oklch(15% 0.060 276.4)",
+          "oklch(26% 0.076 276.4)",
+          "oklch(37% 0.089 276.4)",
+          "oklch(48% 0.089 276.4)",
+          "oklch(60% 0.089 276.4)",
+          "oklch(72% 0.089 276.4)",
+          "oklch(84% 0.076 276.4)",
+          "oklch(95% 0.060 276.4)"
+        ]
+      },
+      "bond": {
+        "role": "neutral",
+        "displayName": "Bond White",
+        "canonical": "#fbfbf8",
+        "oklch": "oklch(98.7% 0.004 106.5)",
+        "tonalRamp": [
+          "oklch(15% 0.004 106.5)",
+          "oklch(26% 0.004 106.5)",
+          "oklch(37% 0.004 106.5)",
+          "oklch(48% 0.004 106.5)",
+          "oklch(60% 0.004 106.5)",
+          "oklch(72% 0.004 106.5)",
+          "oklch(84% 0.004 106.5)",
+          "oklch(95% 0.004 106.5)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Cool Paper",
+        "canonical": "#eceef6",
+        "oklch": "oklch(95.0% 0.011 274.9)",
+        "tonalRamp": [
+          "oklch(15% 0.011 274.9)",
+          "oklch(26% 0.011 274.9)",
+          "oklch(37% 0.011 274.9)",
+          "oklch(48% 0.011 274.9)",
+          "oklch(60% 0.011 274.9)",
+          "oklch(72% 0.011 274.9)",
+          "oklch(84% 0.011 274.9)",
+          "oklch(95% 0.011 274.9)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Carbon Ink",
+        "canonical": "#0e1014",
+        "oklch": "oklch(17.3% 0.009 264.3)",
+        "tonalRamp": [
+          "oklch(15% 0.009 264.3)",
+          "oklch(26% 0.009 264.3)",
+          "oklch(37% 0.009 264.3)",
+          "oklch(48% 0.009 264.3)",
+          "oklch(60% 0.009 264.3)",
+          "oklch(72% 0.009 264.3)",
+          "oklch(84% 0.009 264.3)",
+          "oklch(95% 0.009 264.3)"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Slate Ink",
+        "canonical": "#3b4056",
+        "oklch": "oklch(37.6% 0.038 274.5)",
+        "tonalRamp": [
+          "oklch(15% 0.038 274.5)",
+          "oklch(26% 0.038 274.5)",
+          "oklch(37% 0.038 274.5)",
+          "oklch(48% 0.038 274.5)",
+          "oklch(60% 0.038 274.5)",
+          "oklch(72% 0.038 274.5)",
+          "oklch(84% 0.038 274.5)",
+          "oklch(95% 0.038 274.5)"
+        ]
+      },
+      "on-field": {
+        "role": "neutral",
+        "displayName": "On-Field White",
+        "canonical": "#fbfbf8",
+        "oklch": "oklch(98.7% 0.004 106.5)",
+        "tonalRamp": [
+          "oklch(15% 0.004 106.5)",
+          "oklch(26% 0.004 106.5)",
+          "oklch(37% 0.004 106.5)",
+          "oklch(48% 0.004 106.5)",
+          "oklch(60% 0.004 106.5)",
+          "oklch(72% 0.004 106.5)",
+          "oklch(84% 0.004 106.5)",
+          "oklch(95% 0.004 106.5)"
+        ]
+      },
+      "on-field-soft": {
+        "role": "neutral",
+        "displayName": "Soft Periwinkle",
+        "canonical": "#cfd5f7",
+        "oklch": "oklch(87.9% 0.047 277.5)",
+        "tonalRamp": [
+          "oklch(15% 0.046 277.5)",
+          "oklch(26% 0.047 277.5)",
+          "oklch(37% 0.047 277.5)",
+          "oklch(48% 0.047 277.5)",
+          "oklch(60% 0.047 277.5)",
+          "oklch(72% 0.047 277.5)",
+          "oklch(84% 0.047 277.5)",
+          "oklch(95% 0.046 277.5)"
+        ]
+      },
+      "string": {
+        "role": "neutral",
+        "displayName": "Tie-String Navy",
+        "canonical": "#0a0f33",
+        "oklch": "oklch(19.1% 0.071 271.9)",
+        "tonalRamp": [
+          "oklch(15% 0.054 271.9)",
+          "oklch(26% 0.067 271.9)",
+          "oklch(37% 0.071 271.9)",
+          "oklch(48% 0.071 271.9)",
+          "oklch(60% 0.071 271.9)",
+          "oklch(72% 0.071 271.9)",
+          "oklch(84% 0.067 271.9)",
+          "oklch(95% 0.054 271.9)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule Lilac",
+        "canonical": "#cdd1e2",
+        "oklch": "oklch(86.3% 0.024 275.3)",
+        "tonalRamp": [
+          "oklch(15% 0.024 275.3)",
+          "oklch(26% 0.024 275.3)",
+          "oklch(37% 0.024 275.3)",
+          "oklch(48% 0.024 275.3)",
+          "oklch(60% 0.024 275.3)",
+          "oklch(72% 0.024 275.3)",
+          "oklch(84% 0.024 275.3)",
+          "oklch(95% 0.024 275.3)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headline; uppercase. Closing headline runs at clamp(3.2rem, 8vw, 6rem)/.88."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings; uppercase."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Sub-headings over a 3px rule; uppercase."
+      },
+      "tag-number": {
+        "displayName": "Tag number",
+        "purpose": "No. / Clause identifiers on tags; chip digits at .72rem."
+      },
+      "stamp": {
+        "displayName": "Stamp",
+        "purpose": "Severity and status words, noise-masked rubber stamps."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Redline's own running text."
+      },
+      "tag-claim": {
+        "displayName": "Tag claim",
+        "purpose": "Flat statement of what the clause does."
+      },
+      "tag-range": {
+        "displayName": "Tag range",
+        "purpose": "The 'If used:' cost range beneath a hairline."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Names a content block inside a flag; not a section kicker."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Call-to-action tag text; copy button at .9rem, width 92."
+      },
+      "document": {
+        "displayName": "Document",
+        "purpose": "Agreement text on the sheet."
+      },
+      "document-title": {
+        "displayName": "Document title",
+        "purpose": "Agreement title on the sheet."
+      },
+      "quote": {
+        "displayName": "Quote",
+        "purpose": "Verbatim source sentences in quote blocks."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sheet-lift",
+        "value": "0 30px 60px -12px rgba(0,0,0,.55), 0 4px 10px rgba(0,0,0,.35)",
+        "purpose": "The contract sheet on the field."
+      },
+      {
+        "name": "tag-hang-dark",
+        "value": "drop-shadow(0 10px 14px rgba(0,0,0,.38)) drop-shadow(0 2px 3px rgba(0,0,0,.3))",
+        "purpose": "filter on clipped tags over field or ink."
+      },
+      {
+        "name": "tag-hang-light",
+        "value": "drop-shadow(0 8px 14px rgba(20,31,99,.22)) drop-shadow(0 1px 2px rgba(20,31,99,.25))",
+        "purpose": "filter on clipped tags over paper."
+      },
+      {
+        "name": "quote-rest",
+        "value": "0 1px 2px rgba(20,31,99,.12)",
+        "purpose": "Quote blocks on paper."
+      },
+      {
+        "name": "peek-slip",
+        "value": "0 8px 18px rgba(0,0,0,.35)",
+        "purpose": "Narrow-screen peek sentence."
+      },
+      {
+        "name": "patch-ring",
+        "value": "inset 0 0 0 4px <stock-specific rgba>",
+        "purpose": "Eyelet reinforcement: critical rgba(90,20,4,.28), serious rgba(110,76,0,.25), cleared rgba(70,44,10,.28), notice rgba(29,44,134,.2), blank rgba(29,44,134,.22)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "All tag, string, and CTA motion."
+      },
+      {
+        "name": "swing",
+        "value": "1.1s; rotate 0 → 5deg → -2deg → 0",
+        "purpose": "Tags on arrival and on :target."
+      },
+      {
+        "name": "pull",
+        "value": ".9s; stroke-width 4.2 → 1.8",
+        "purpose": "Strings tighten on arrival; grommets seat from scale 1.5 over the same .9s."
+      },
+      {
+        "name": "stagger",
+        "value": "calc(var(--i) * .42s + .8s)",
+        "purpose": "One timeline: each pair ties after the previous; runs at >=860px only, classes removed after 3.2s."
+      },
+      {
+        "name": "lit-slide",
+        "value": "translateX(-6px) .35s",
+        "purpose": "Rail tag when its pair is hovered or focused."
+      },
+      {
+        "name": "cta-swing",
+        "value": "rotate(-2.5deg) .5s",
+        "purpose": "Primary CTA hover."
+      },
+      {
+        "name": "lit-fill",
+        "value": "background-color .25s; stroke-width 1.8 → 3.2 .25s",
+        "purpose": "Sentence tint and string thickening when lit; not movement, persists under reduced motion."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none; transform transitions: none",
+        "purpose": "All swing, pull, seat, rotate and slide motion off."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "hero-stack",
+        "value": "1180px"
+      },
+      {
+        "name": "rows-stack",
+        "value": "900px (row strings shown from 901px)"
+      },
+      {
+        "name": "stage-stack",
+        "value": "859px (hero strings shown from 860px)"
+      },
+      {
+        "name": "compact",
+        "value": "560px"
+      }
+    ],
+    "strings": {
+      "underlay": "stroke #0a0f33, 3.6px, opacity .55",
+      "over": "tier colour, 1.8px, round caps",
+      "notice": "over #a9b4f2; underlay 4px, opacity .9",
+      "grommet": "fill bond, stroke string 2.4px, r 5",
+      "sag": "16px + 8% of vertical drop",
+      "path": "M g C g.x+dx*.6,g.y+sag  e.x-dx*.45,e.y+sag  e"
+    }
+  },
+  "components": [
+    {
+      "name": "Critical Tag",
+      "kind": "chip",
+      "refersTo": "tag-critical",
+      "description": "Vermilion stock, two punch holes; the highest severity flag.",
+      "html": "<div style=\"background:#1d2c86;padding:24px\"><a href=\"#\" class=\"ds-hang\"><span class=\"ds-tag ds-crit\"><span class=\"ds-top\"><span class=\"ds-no\">No. 1</span><span class=\"ds-stamp\">Critical</span></span><span class=\"ds-claim\">You cover all of the client's losses and legal fees, and the clause sets no limit.</span><span class=\"ds-range\">If used: from a demand letter to costs many times your fee.</span></span></a></div>",
+      "css": ".ds-tag{position:relative;display:inline-block;max-width:300px;background:var(--stock);color:var(--ink, #0e1014);padding:14px 18px 14px 44px;clip-path:polygon(22px 0,100% 0,100% 100%,22px 100%,0 calc(100% - 22px),0 22px);-webkit-mask:var(--punch,linear-gradient(#000 0 0)),radial-gradient(circle at 17px 50%,transparent 5px,#000 5.5px);-webkit-mask-composite:source-in;mask:var(--punch,linear-gradient(#000 0 0)),radial-gradient(circle at 17px 50%,transparent 5px,#000 5.5px);mask-composite:intersect;text-decoration:none;transition:transform .35s cubic-bezier(.16,1,.3,1)}.ds-tag::before{content:'';position:absolute;left:7px;top:50%;width:20px;height:20px;margin-top:-10px;border-radius:50%;box-shadow:inset 0 0 0 4px var(--patch)}.ds-hang{display:inline-block;filter:drop-shadow(0 10px 14px rgba(0,0,0,.38)) drop-shadow(0 2px 3px rgba(0,0,0,.3))}.ds-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;padding-right:30px}.ds-no{font:800 1.05rem/1 'Big Shoulders','Arial Narrow',sans-serif;letter-spacing:.02em;text-transform:uppercase}.ds-stamp{display:inline-block;font:800 .8rem/1 'Big Shoulders Stencil','Big Shoulders',sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px 2px;border:2px solid currentColor;transform:rotate(-3deg);mix-blend-mode:multiply;opacity:.9}.ds-claim{display:block;font:650 .95rem/1.35 Archivo,system-ui,sans-serif}.ds-range{display:block;margin-top:9px;padding-top:7px;border-top:1px solid rgba(14,16,20,.45);font:400 .8rem/1.4 Archivo,system-ui,sans-serif;font-stretch:92%}.ds-tag:hover,.ds-tag:focus-visible{transform:translateX(-6px)}.ds-tag:focus-visible{outline:3px solid var(--focus, #f2c230);outline-offset:3px}.ds-crit{--stock:var(--crit, #ea4520);--patch:rgba(90,20,4,.28);--punch:radial-gradient(circle at calc(100% - 15px) 15px,transparent 4.5px,#000 5px),radial-gradient(circle at calc(100% - 31px) 15px,transparent 4.5px,#000 5px)}"
+    },
+    {
+      "name": "Serious Tag",
+      "kind": "chip",
+      "refersTo": "tag-serious",
+      "description": "Chrome yellow stock, one punch hole.",
+      "html": "<div style=\"background:#1d2c86;padding:24px\"><a href=\"#\" class=\"ds-hang\"><span class=\"ds-tag ds-ser\"><span class=\"ds-top\"><span class=\"ds-no\">No. 3</span><span class=\"ds-stamp\">Serious</span></span><span class=\"ds-claim\">The client can end the agreement at any time and pays only for work delivered.</span><span class=\"ds-range\">If used: from a demand letter to costs many times your fee.</span></span></a></div>",
+      "css": ".ds-tag{position:relative;display:inline-block;max-width:300px;background:var(--stock);color:var(--ink, #0e1014);padding:14px 18px 14px 44px;clip-path:polygon(22px 0,100% 0,100% 100%,22px 100%,0 calc(100% - 22px),0 22px);-webkit-mask:var(--punch,linear-gradient(#000 0 0)),radial-gradient(circle at 17px 50%,transparent 5px,#000 5.5px);-webkit-mask-composite:source-in;mask:var(--punch,linear-gradient(#000 0 0)),radial-gradient(circle at 17px 50%,transparent 5px,#000 5.5px);mask-composite:intersect;text-decoration:none;transition:transform .35s cubic-bezier(.16,1,.3,1)}.ds-tag::before{content:'';position:absolute;left:7px;top:50%;width:20px;height:20px;margin-top:-10px;border-radius:50%;box-shadow:inset 0 0 0 4px var(--patch)}.ds-hang{display:inline-block;filter:drop-shadow(0 10px 14px rgba(0,0,0,.38)) drop-shadow(0 2px 3px rgba(0,0,0,.3))}.ds-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;padding-right:30px}.ds-no{font:800 1.05rem/1 'Big Shoulders','Arial Narrow',sans-serif;letter-spacing:.02em;text-transform:uppercase}.ds-stamp{display:inline-block;font:800 .8rem/1 'Big Shoulders Stencil','Big Shoulders',sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px 2px;border:2px solid currentColor;transform:rotate(-3deg);mix-blend-mode:multiply;opacity:.9}.ds-claim{display:block;font:650 .95rem/1.35 Archivo,system-ui,sans-serif}.ds-range{display:block;margin-top:9px;padding-top:7px;border-top:1px solid rgba(14,16,20,.45);font:400 .8rem/1.4 Archivo,system-ui,sans-serif;font-stretch:92%}.ds-tag:hover,.ds-tag:focus-visible{transform:translateX(-6px)}.ds-tag:focus-visible{outline:3px solid var(--focus, #f2c230);outline-offset:3px}.ds-ser{--stock:var(--serious, #f2c230);--patch:rgba(110,76,0,.25);--punch:radial-gradient(circle at calc(100% - 15px) 15px,transparent 4.5px,#000 5px)}"
+    },
+    {
+      "name": "Cleared Tag",
+      "kind": "card",
+      "refersTo": "tag-cleared",
+      "description": "Kraft stock, no holes, top-centre eyelet; hangs from a wire for clauses checked and found acceptable.",
+      "html": "<div style=\"background:#1d2c86;padding:24px\"><div class=\"ds-hang\"><div class=\"ds-cleared\"><div class=\"ds-ctop\"><span class=\"ds-no\">Clause 3</span><span class=\"ds-stamp\">Cleared</span></div><p class=\"ds-src\">The fee includes up to two rounds of revisions on each deliverable.</p><p class=\"ds-note\">Revisions are capped at two rounds per deliverable.</p></div></div></div>",
+      "css": ".ds-hang{display:inline-block;max-width:260px;transform:rotate(-2deg);filter:drop-shadow(0 10px 14px rgba(0,0,0,.38)) drop-shadow(0 2px 3px rgba(0,0,0,.3))}.ds-cleared{position:relative;background:var(--kraft, #bf9259);color:var(--ink, #0e1014);padding:40px 20px 22px;clip-path:polygon(0 20px,20px 0,calc(100% - 20px) 0,100% 20px,100% 100%,0 100%);-webkit-mask:radial-gradient(circle at 50% 17px,transparent 5px,#000 5.5px);mask:radial-gradient(circle at 50% 17px,transparent 5px,#000 5.5px)}.ds-cleared::before{content:'';position:absolute;left:50%;top:7px;margin-left:-10px;width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 4px rgba(70,44,10,.28)}.ds-ctop{display:flex;justify-content:space-between;align-items:center}.ds-no{font:800 1.05rem/1 'Big Shoulders','Arial Narrow',sans-serif;letter-spacing:.02em;text-transform:uppercase}.ds-stamp{display:inline-block;font:800 .78rem/1 'Big Shoulders Stencil','Big Shoulders',sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px 2px;border:2px solid currentColor;transform:rotate(-3deg);mix-blend-mode:multiply;opacity:.9}.ds-src{margin:6px 0 12px;font:400 .98rem/1.45 'Source Serif 4',Georgia,serif}.ds-note{margin:0;padding-top:9px;border-top:1px solid rgba(14,16,20,.4);font:400 .86rem/1.42 Archivo,system-ui,sans-serif}"
+    },
+    {
+      "name": "Notice Tag",
+      "kind": "chip",
+      "refersTo": "tag-notice",
+      "description": "White bond stock with a field-blue stamp; reserved for the confidentiality exception.",
+      "html": "<div style=\"background:#1d2c86;padding:24px\"><a href=\"#\" class=\"ds-hang\"><span class=\"ds-tag ds-note-tag\"><span class=\"ds-top\"><span class=\"ds-no\">No. 4</span><span class=\"ds-stamp\">Before upload</span></span><span class=\"ds-claim\">This clause bars sharing the agreement's terms. Uploading sends its text to an AI model provider.</span></span></a></div>",
+      "css": ".ds-tag{position:relative;display:inline-block;max-width:300px;background:var(--stock);color:var(--ink, #0e1014);padding:14px 18px 14px 44px;clip-path:polygon(22px 0,100% 0,100% 100%,22px 100%,0 calc(100% - 22px),0 22px);-webkit-mask:var(--punch,linear-gradient(#000 0 0)),radial-gradient(circle at 17px 50%,transparent 5px,#000 5.5px);-webkit-mask-composite:source-in;mask:var(--punch,linear-gradient(#000 0 0)),radial-gradient(circle at 17px 50%,transparent 5px,#000 5.5px);mask-composite:intersect;text-decoration:none;transition:transform .35s cubic-bezier(.16,1,.3,1)}.ds-tag::before{content:'';position:absolute;left:7px;top:50%;width:20px;height:20px;margin-top:-10px;border-radius:50%;box-shadow:inset 0 0 0 4px var(--patch)}.ds-hang{display:inline-block;filter:drop-shadow(0 10px 14px rgba(0,0,0,.38)) drop-shadow(0 2px 3px rgba(0,0,0,.3))}.ds-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;padding-right:30px}.ds-no{font:800 1.05rem/1 'Big Shoulders','Arial Narrow',sans-serif;letter-spacing:.02em;text-transform:uppercase}.ds-stamp{display:inline-block;font:800 .8rem/1 'Big Shoulders Stencil','Big Shoulders',sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px 2px;border:2px solid currentColor;transform:rotate(-3deg);mix-blend-mode:multiply;opacity:.9}.ds-claim{display:block;font:650 .95rem/1.35 Archivo,system-ui,sans-serif}.ds-range{display:block;margin-top:9px;padding-top:7px;border-top:1px solid rgba(14,16,20,.45);font:400 .8rem/1.4 Archivo,system-ui,sans-serif;font-stretch:92%}.ds-tag:hover,.ds-tag:focus-visible{transform:translateX(-6px)}.ds-tag:focus-visible{outline:3px solid var(--focus, #f2c230);outline-offset:3px}.ds-note-tag{--stock:var(--bond, #fbfbf8);--patch:rgba(29,44,134,.2)}.ds-note-tag .ds-stamp{color:var(--field, #1d2c86)}"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "A blank lavender tag that swings on its eyelet; the only call to action.",
+      "html": "<div style=\"background:#1d2c86;padding:32px\"><a href=\"#\" class=\"ds-cta\"><span class=\"ds-cta-tag\"><b>Try it on your agreement</b></span></a></div>",
+      "css": ".ds-cta{display:inline-block;text-decoration:none;transform-origin:17px 50%;transition:transform .5s cubic-bezier(.16,1,.3,1);filter:drop-shadow(0 10px 14px rgba(0,0,0,.38)) drop-shadow(0 2px 3px rgba(0,0,0,.3))}.ds-cta-tag{position:relative;display:block;background:var(--blank, #dfe3fb);color:var(--ink, #0e1014);padding:17px 28px 16px 50px;clip-path:polygon(22px 0,100% 0,100% 100%,22px 100%,0 calc(100% - 22px),0 22px);-webkit-mask:radial-gradient(circle at 17px 50%,transparent 5px,#000 5.5px);mask:radial-gradient(circle at 17px 50%,transparent 5px,#000 5.5px)}.ds-cta-tag::before{content:'';position:absolute;left:7px;top:50%;width:20px;height:20px;margin-top:-10px;border-radius:50%;box-shadow:inset 0 0 0 4px rgba(29,44,134,.22)}.ds-cta b{font:700 1.08rem/1 Archivo,system-ui,sans-serif;font-stretch:94%;letter-spacing:.005em}.ds-cta:hover{transform:rotate(-2.5deg)}.ds-cta:active{transform:rotate(-1deg) translateY(1px)}.ds-cta:focus-visible{outline:3px solid var(--focus, #f2c230);outline-offset:5px}@media (prefers-reduced-motion:reduce){.ds-cta{transition:none}}"
+    },
+    {
+      "name": "Copy Button",
+      "kind": "button",
+      "refersTo": "button-copy",
+      "description": "Field-blue arrow-ended button that copies a counter-offer.",
+      "html": "<div style=\"background:#eceef6;padding:24px\"><button class=\"ds-copy\" type=\"button\">Copy counter-offer</button></div>",
+      "css": ".ds-copy{font:700 .9rem/1 Archivo,system-ui,sans-serif;font-stretch:92%;color:var(--bond, #fbfbf8);background:var(--field, #1d2c86);border:0;cursor:pointer;padding:11px 16px 11px 30px;clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);transition:background-color .2s}.ds-copy:hover{background:var(--field-deep, #141f63)}.ds-copy:active{background:var(--ink, #0e1014)}.ds-copy:focus-visible{outline:3px solid var(--field, #1d2c86);outline-offset:3px}"
+    },
+    {
+      "name": "Marked Sentence with Chips",
+      "kind": "chip",
+      "refersTo": "chip-critical",
+      "description": "Tier underlines in the document, each followed by a tag-shaped index chip linking to its flag.",
+      "html": "<div class=\"ds-sheet\"><p><mark class=\"ds-m ds-m-crit\">The Contractor shall indemnify the Client against any and all claims.</mark><a class=\"ds-chip ds-chip-crit\" href=\"#\">1</a> <mark class=\"ds-m ds-m-ser\">The Client may terminate this Agreement at any time.</mark><a class=\"ds-chip ds-chip-ser\" href=\"#\">3</a> <mark class=\"ds-m ds-m-note\">The Contractor will not disclose the terms of this Agreement.</mark><a class=\"ds-chip ds-chip-note\" href=\"#\">4</a></p></div>",
+      "css": ".ds-sheet{background:var(--bond, #fbfbf8);color:var(--ink, #0e1014);padding:24px 28px;font:400 .95rem/1.6 'Source Serif 4',Georgia,serif;box-shadow:0 30px 60px -12px rgba(0,0,0,.55),0 4px 10px rgba(0,0,0,.35)}.ds-sheet p{margin:0}.ds-m{background:none;color:inherit;text-decoration:underline 3px;text-underline-offset:.2em;text-decoration-skip-ink:none;transition:background-color .25s}.ds-m-crit{text-decoration-color:var(--crit, #ea4520)}.ds-m-crit:hover{background:rgba(234,69,32,.16)}.ds-m-ser{text-decoration-color:var(--serious-line, #a57600)}.ds-m-ser:hover{background:rgba(242,194,48,.34)}.ds-m-note{text-decoration:underline dashed 2px var(--field, #1d2c86)}.ds-chip{display:inline-block;vertical-align:.12em;margin-left:4px;min-width:1.45em;padding:1px 5px 0 9px;font:800 .72rem/1.35 'Big Shoulders','Arial Narrow',sans-serif;text-align:center;text-decoration:none;color:var(--ink, #0e1014);clip-path:polygon(5px 0,100% 0,100% 100%,5px 100%,0 50%)}.ds-chip-crit{background:var(--crit, #ea4520)}.ds-chip-ser{background:var(--serious, #f2c230)}.ds-chip-note{background:var(--field, #1d2c86);color:var(--bond, #fbfbf8)}.ds-chip:focus-visible{outline:3px solid var(--field, #1d2c86);outline-offset:3px;border-radius:2px}"
+    },
+    {
+      "name": "Quote Block",
+      "kind": "card",
+      "refersTo": "quote-block",
+      "description": "The verbatim source sentence on a ranked flag, set in the document face on a bond slip.",
+      "html": "<div style=\"background:#eceef6;padding:24px\"><p class=\"ds-label\">From the agreement, clause 5</p><blockquote class=\"ds-quote\">The Contractor shall indemnify and hold harmless the Client against any and all claims, losses, damages and legal fees arising from or relating to the Services.</blockquote></div>",
+      "css": ".ds-label{margin:0 0 10px;font:700 .8rem/1 Archivo,system-ui,sans-serif;font-stretch:88%;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft, #3b4056)}.ds-quote{margin:0;padding:20px 24px;max-width:62ch;background:var(--bond, #fbfbf8);color:var(--ink, #0e1014);font:400 1.14rem/1.55 'Source Serif 4',Georgia,serif;box-shadow:0 1px 2px rgba(20,31,99,.12)}"
+    },
+    {
+      "name": "Wordmark and Header",
+      "kind": "nav",
+      "refersTo": "tag-critical",
+      "description": "The wordmark is a small critical tag; a single text link sits opposite.",
+      "html": "<header class=\"ds-top-nav\"><a href=\"#\" class=\"ds-mark\"><b>Redline</b></a><a class=\"ds-link\" href=\"#\">Sign in</a></header>",
+      "css": ".ds-top-nav{display:flex;align-items:center;justify-content:space-between;background:var(--field, #1d2c86);padding:22px 32px}.ds-mark{position:relative;display:inline-block;text-decoration:none;background:var(--crit, #ea4520);color:var(--ink, #0e1014);padding:7px 16px 6px 38px;clip-path:polygon(16px 0,100% 0,100% 100%,16px 100%,0 calc(100% - 16px),0 16px);-webkit-mask:radial-gradient(circle at 17px 50%,transparent 4px,#000 4.5px);mask:radial-gradient(circle at 17px 50%,transparent 4px,#000 4.5px)}.ds-mark::before{content:'';position:absolute;left:8px;top:50%;width:18px;height:18px;margin-top:-9px;border-radius:50%;box-shadow:inset 0 0 0 4px rgba(90,20,4,.28)}.ds-mark b{font:800 1.6rem/1 'Big Shoulders','Arial Narrow',sans-serif;letter-spacing:.01em;text-transform:uppercase}.ds-link{color:var(--on-field, #fbfbf8);font:600 .95rem/1 Archivo,system-ui,sans-serif;padding:8px 2px;text-underline-offset:.22em;text-decoration-thickness:1.5px}.ds-link:hover{color:var(--on-field-soft, #cfd5f7)}.ds-mark:focus-visible,.ds-link:focus-visible{outline:3px solid var(--focus, #f2c230);outline-offset:3px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Tagged",
+    "overview": "A flag is a die-cut shipping tag tied by string to the exact sentence it came from. The world is a dispatch room laid over a contract. An ultramarine field holds a white bond sheet. Tags in saturated stock hang beside it on reinforced eyelets, and rubber stamps mark each one. The document stays calm and readable, while the tags do the shouting.\n\nPairing claim to source is the whole idea, and every surface has to show it. On wide screens a string runs from the sentence to its tag. On narrow screens a numbered chip beside the sentence does the same job, and the two elements stack. The category's usual split screen, a highlighted document screenshot beside a risk sidebar, was refused in the direction contract. The contract asked for a 5/7 column split. The build uses a fluid three-track grid instead (copy, sheet, tag rail), and the build is what this file records.",
+    "keyCharacteristics": [
+      "Ultramarine field, white bond document, saturated tag stock.",
+      "Severity carried twice: stock colour and punch holes.",
+      "Condensed industrial caps on tags and headings, with a serif used only for document text.",
+      "Clipped corners, not rounded ones, on every tag-shaped control.",
+      "One tying timeline on arrival, and nothing moves under reduced motion."
+    ],
+    "rules": [
+      {
+        "name": "The One Stock, One Meaning Rule",
+        "body": "Vermilion means Critical, yellow means Serious, kraft means cleared, white means the confidentiality exception, and lavender means an action. Never use a stock for decoration or for a different meaning.",
+        "section": "colors"
+      },
+      {
+        "name": "The Underline Carries the Tier Rule",
+        "body": "In the document, a flagged sentence gets a 3px underline in its tier colour, with no fill. The underline for Serious is ochre, not yellow. The notice underline is a dashed field-blue line (2px). A tinted fill appears only while the pair is lit.",
+        "section": "colors"
+      },
+      {
+        "name": "The Serif Is Evidence Rule",
+        "body": "Source Serif 4 is only for text that comes from the agreement: the sheet, quote blocks, and the quoted sentence on cleared tags. Redline's own words are always Archivo. This is how quotation and interpretation look different without relying on colour.",
+        "section": "typography"
+      },
+      {
+        "name": "The Caps Belong To Tags Rule",
+        "body": "Big Shoulders is always uppercase and always 800. The 700 weight is loaded but no role uses it yet.",
+        "section": "typography"
+      },
+      {
+        "name": "The Strings Need Room Rule",
+        "body": "Strings are drawn only where the pairing can be read: the hero at 860px and up, and ranked rows at 901px and up. Below those widths, numbered chips and the stacked order carry the pairing. Never draw a string that crosses content it can't clear.",
+        "section": "layout"
+      },
+      {
+        "name": "The Only Objects Lift Rule",
+        "body": "Only things that exist as paper (the sheet, tags, quote slips) get shadows. Buttons that are not tags, chips, and bands stay flat.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Clipped Not Rounded Rule",
+        "body": "Tag-shaped controls get clipped corners. The world's rounded forms are its metal and holes, so they are not banned. They just stay at hardware scale.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "**Do** mark severity with punch holes as well as stock: two for Critical, one for Serious.",
+      "**Do** set every verbatim quotation in Source Serif 4 and every Redline sentence in Archivo.",
+      "**Do** use a yellow focus ring (3px, offset 3px) on field and ink, and a field-blue ring on paper and bond.",
+      "**Do** let focusing either end of a pair light both ends, so keyboard users see the tie.",
+      "**Do** swap strings for numbered chips and a stacked layout below 860px (hero) and 901px (rows).",
+      "**Do** stamp any demonstration document \"Sample\"."
+    ],
+    "donts": [
+      "**Don't** use a stock colour for anything other than its meaning, and don't set vermilion or kraft as text on the field (3.06:1 and 4.25:1). Yellow emphasis on the field is allowed.",
+      "**Don't** use yellow for an underline on white. Use ochre (serious-line).",
+      "**Don't** round the corners of tags or tag-shaped buttons.",
+      "**Don't** put a shadow on anything that isn't paper.",
+      "**Don't** set Big Shoulders in lowercase or below 800.",
+      "**Don't** add a string that can't reach its sentence cleanly. Use a chip instead."
+    ]
+  }
+}
