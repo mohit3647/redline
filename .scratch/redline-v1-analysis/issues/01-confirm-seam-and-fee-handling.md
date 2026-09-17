@@ -44,3 +44,5 @@ ticket 06.
 
 Still outstanding: the fee decision changes what ADR 0003's tiers mean in
 practice and has not yet been recorded as an ADR.
+
+**2026-09-16 — the fee decision is now recorded as ADR 0006.**

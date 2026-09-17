@@ -86,11 +86,11 @@ in different places, and nothing in the research joins them up.
 
 ## 3. What the first version does
 
-Eight capabilities. Nothing beyond this list gets built without an explicit
+Nine capabilities. Nothing beyond this list gets built without an explicit
 decision to expand scope.
 
-1. **Accept a document** — contract, lease, or freelance agreement — uploaded by
-   the signer. The file is parsed in the browser; only the extracted text is
+1. **Accept a document** — a freelance client agreement — uploaded by the
+   signer. The file is parsed in the browser; only the extracted text is
    stored, never the file.
 2. **Disclose, before upload, that analysis leaves the browser.** Parsing is
    local; the model call is not. See §7 and ADR 0005.
@@ -109,6 +109,19 @@ decision to expand scope.
 8. **Keep an editable list of the signer's red lines** — standing objections
    that change what gets flagged and how severely — and **a library of their
    past documents**.
+9. **A landing page that is the front door to the app.** It tells a
+   signed-out visitor what Redline does and who it is for, shows the
+   disclosure from capability 2, and sends them to sign in. Its proof is one
+   **sample agreement analysed by the real pipeline**: a document written for
+   the purpose, plainly labelled as a sample, whose flags, source sentences,
+   counter-offers and cleared list are Redline's actual output. Nothing is
+   uploaded and nothing is analysed on the landing page itself. The page
+   describes what Redline does and claims no comparison with other tools
+   until the free-chatbot test (§8 gap 3) supports one.
+
+**Redline states plainly that it is not legal advice**, on the landing page and
+beside every analysis. The wording states a fact; it must not soften what the
+analysis says about the text (ADR 0004).
 
 One exception to the severity model, recorded here because it is a genuine
 exception rather than a special case: **the document's own confidentiality
@@ -174,6 +187,10 @@ is standard for the work. Both definitions are decided and recorded in ADR 0003.
   the job.
 - **Minor** — the loss is bounded and smaller than the fee. Minor items go to
   the cleared list with a note, not to the flag list.
+
+The fee is extracted when the document states it and entered by the signer
+when it does not. When it is unknown, Critical is unaffected and any tier that
+depends on the fee says so instead of guessing (ADR 0006).
 
 ### The three anchors
 
@@ -287,6 +304,30 @@ preference, and a cheaper route without it is no longer available. Taken because
 a trust product that quietly ships confidential client documents to a
 third-party inference provider has a contradiction at its centre.
 
+**9. A front-door landing page with a static sample, not a waitlist or a
+live demo.** *(ADR 0007)*
+Chosen against: a waitlist page that would test demand before the app exists
+(§8 gaps 3 and 4), and letting a signed-out visitor analyse their own
+document. **Worse off: the visitor who wants to try Redline on their own
+contract before creating an account**, and us, because the landing page
+answers none of the open demand questions in §8. Taken because a waitlist
+adds stored personal data and a consent surface to a product whose premise is
+trust, and anonymous analysis would send confidential documents to the model
+from people who skipped the intake flow (ADR 0005).
+
+**10. The sample agreement is written for the purpose, not a real one.**
+*(ADR 0007)*
+Chosen against: a real agreement from the benchmark set, published with
+consent. **Worse off: the sceptical visitor**, who sees a staged document
+built to contain the three anchors rather than evidence that real contracts
+look like this. Taken because real client agreements are usually
+confidential, and removing identifying details must not change any quoted
+sentence or the citations stop matching. The label "sample" is required, not
+optional: presenting it as a real client's contract would be invented
+evidence. The benchmark lawyer labels the sample, and it ships only when
+Redline's real output matches those labels; the sample is never rewritten to
+suit the output.
+
 ---
 
 ## 7. What we are not building, and why
@@ -312,6 +353,9 @@ market where free tools already grade known companies' terms
 **A post-dispute mode.** Different verbs, different urgency, different UI. It is
 the better-evidenced product and it is not this one; building both halves badly
 is the failure mode.
+
+**A waitlist, or analysis for signed-out visitors.** Both were considered for
+the landing page and rejected in decision 9.
 
 **Anything else that looks like the obvious next step.** `CLAUDE.md` holds the
 capability list and the instruction to ask before exceeding it.
@@ -343,7 +387,7 @@ single cheapest, highest-value piece of remaining research is twenty freelancers
 describing a contract that hurt them.
 
 **3. Nobody checked whether a free chatbot already does this well enough.**
-Three of the eight capabilities in §3 — summary, flagged clauses with quotes,
+Three of the nine capabilities in §3 — summary, flagged clauses with quotes,
 document-grounded Q&A — are things a general-purpose model does acceptably from
 a file upload for free. The research flagged this and ran out of budget before
 testing it. **Every willingness-to-pay number in §1 assumes people are choosing
@@ -361,3 +405,8 @@ rests on the counter-offer being the differentiator, and there is no evidence
 anywhere in the research about whether clients accept AI-drafted redlines, or
 how a freelancer is received when they send one. Criterion 9 in §4 tests whether
 the language is *sendable*. It does not test what happens after it is sent.
+
+**6. There is no privacy policy or terms of service.** Sign-in stores email
+addresses and the app stores contract text. Both documents need a human
+author, likely with legal help, and block public launch but not the build
+(`.scratch/redline-v1/issues/15`).

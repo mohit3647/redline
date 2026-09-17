@@ -25,4 +25,5 @@ Ticket 06 adds the fee.
 - [ ] The rest of PRD §5's "also flagged" table is detected
 - [ ] Flags render in severity order, each showing its source sentence, visibly distinct from Redline's own interpretation (ADR 0004)
 - [ ] Voice: the text is described flatly and the consequence carries a stated range; no hedged descriptions of the text, no certain claims about consequence (PRD criterion 10)
+- [ ] Beside the analysis, Redline states plainly that it is not legal advice, without softening what the flags say (PRD §3)
 - [ ] A model response that yields no valid flags produces an explicit failure state, never a silent empty list

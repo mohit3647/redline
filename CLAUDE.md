@@ -1,7 +1,7 @@
 # Redline
 
-A web app that reads a contract, lease, or freelance agreement and tells the reader what they are
-actually signing. v1: freelancers, pre-signature, negotiable documents only (ADR 0002).
+A web app that reads a freelance client agreement and tells the reader what they are actually
+signing. v1: freelancers, pre-signature, negotiable documents only (ADR 0002).
 
 ## Capabilities in scope
 
@@ -16,12 +16,16 @@ Build these and stop:
 - A cleared list of the clauses checked and found acceptable (ADR 0004)
 - A pre-upload disclosure that analysis leaves the browser, and a flag on the document's own
   confidentiality clause (ADR 0005)
+- A landing page that is the front door to the app, with one written sample agreement analysed by
+  the real pipeline (ADR 0007)
 
 ## Settled decisions — do not reopen
 
 - Next.js. Supabase for auth and database. Deployed on Vercel.
 - The uploaded file is parsed in the browser. Only text is stored, never the file.
-- The model is called through OpenRouter.
+- The model is Claude Sonnet 5, called through OpenRouter on zero-data-retention routes only.
+- pnpm is the package manager.
+- Supabase runs locally through its CLI in development; the schema lives in committed migrations.
 - Every risk flag cites the exact sentence it came from. A flag whose source sentence cannot be
   shown is a bug, not a degraded result.
 - Severity is expected cost to the signer; danger is absolute, not relative to market (ADR 0003).
@@ -37,8 +41,6 @@ was misread.
 
 - Adding any dependency.
 - Anything that looks like the obvious next step but is not in the capability list above.
-- Choosing the OpenRouter model, the package manager, or the Supabase development setup. All three
-  are deliberately undecided until the PRD is written. Do not pick one silently.
 
 ## Standing rules
 
