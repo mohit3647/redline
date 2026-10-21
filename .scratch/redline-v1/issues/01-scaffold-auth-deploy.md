@@ -1,6 +1,6 @@
 # 01 — Scaffold, sign-in, and a deployed URL
 
-Status: ready-for-agent
+Status: done-code-unverified-supabase
 Blocked by: None (can start immediately)
 
 **What to build:** a signer opens a deployed Redline URL, signs in, and lands on
@@ -21,8 +21,8 @@ Stack, settled 2026-09-16 (CLAUDE.md listed these three as open until now):
 - [x] Next.js app, managed with pnpm, deploys to Vercel
 - [x] The root `vercel.json` that serves `design/landing` as a static site (no framework, no build) is removed or replaced, so Vercel builds the Next.js app
 - [ ] Supabase runs locally via its CLI; the schema exists only as committed migrations
-- [ ] A signer can sign in by email magic link and sign out
-- [ ] Every credential lives in `.env.local`; nothing secret is committed (the repo is public)
+- [x] (code written; unverified without Supabase) A signer can sign in by email magic link and sign out
+- [x] Every credential lives in `.env.local`; nothing secret is committed (the repo is public)
 - [ ] Every dependency beyond Next.js and the Supabase client is raised with the human before it is added
 
 ## Comments
