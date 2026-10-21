@@ -33,6 +33,7 @@ export interface Flag {
   /** Flat description of what the text says. */
   claim: string;
   consequence: Consequence;
+  /** Replacement language for the client. Empty when the model gave none; the view then says so. */
   counterOffer: string;
   triggeredByRedLine?: string;
 }
@@ -77,10 +78,10 @@ export type Fee =
   | { state: "supplied"; amount: number; currency: string }
   | { state: "unknown" };
 
-export type DropReason = "not-verbatim" | "empty-quote" | "malformed" | "contradicted";
+export type DropReason = "not-verbatim" | "empty-quote" | "malformed" | "contradicted" | "empty";
 
 export interface Dropped {
-  kind: "flag" | "cleared" | "fee" | "absent" | "payload";
+  kind: "flag" | "cleared" | "fee" | "absent" | "payload" | "summary";
   reason: DropReason;
   /** The clause id or type if one could be read from the raw item. */
   label?: string;

@@ -196,11 +196,12 @@ describe("malformed payloads", () => {
       cleared: [{ clauseType: "x", finding: "f" }, { clauseType: "x", finding: "f", sourceSentence: 7 }],
     };
     const { analysis, logger } = await run(adhesion, "adhesion-contract", { rawPayload });
-    expect(analysis.flags.map((f) => f.id)).toEqual(["ok"]);
+    // A blank counter-offer is not malformed: the verified flag stays and the view says none was drafted.
+    expect(analysis.flags.map((f) => f.id)).toEqual(["ok", "no-counter"]);
     expect(analysis.cleared).toEqual([]);
-    expect(analysis.dropped).toHaveLength(9);
+    expect(analysis.dropped).toHaveLength(8);
     expect(analysis.dropped.every((d: Dropped) => d.reason === "malformed")).toBe(true);
-    expect(logger).toHaveBeenCalledTimes(9);
+    expect(logger).toHaveBeenCalledTimes(8);
   });
 
   it("drops a malformed fee without throwing", async () => {

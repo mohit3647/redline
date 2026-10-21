@@ -77,29 +77,42 @@ function parseBounds(c: Obj): Pick<Consequence, "lowAmount" | "highAmount" | "cu
   return { lowAmount, highAmount, currency };
 }
 
+/** True when a clause type names a confidentiality or non-disclosure clause. */
+export function isConfidentialityType(clauseType: string): boolean {
+  const words = clauseType.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  const joined = words.join("");
+  return words.some((w) => w.startsWith("confidential") || w === "nda") || joined.includes("nondisclosure");
+}
+
 function parseFlag(raw: unknown): Flag | string {
   if (!isObj(raw)) return "flag is not an object";
   const id = nonEmpty(raw.id);
   const clauseType = nonEmpty(raw.clauseType);
   const claim = nonEmpty(raw.claim);
-  const counterOffer = nonEmpty(raw.counterOffer);
   if (!id) return "missing id";
   if (!clauseType) return "missing clauseType";
   if (raw.kind !== "risk" && raw.kind !== "confidentiality") return "kind must be risk or confidentiality";
   if (!claim) return "missing claim";
-  if (!counterOffer) return "missing counterOffer";
+  // A blank or missing counter-offer does not cost the flag its place: the sentence is verified and
+  // the signer still needs to see it. The view shows "No counter-offer drafted" and the count is kept.
+  if (raw.counterOffer !== undefined && raw.counterOffer !== null && typeof raw.counterOffer !== "string") return "counterOffer is not a string";
+  const counterOffer = typeof raw.counterOffer === "string" ? raw.counterOffer.trim() : "";
   if (typeof raw.sourceSentence !== "string") return "missing sourceSentence";
   let severity: Severity | null;
-  if (raw.severity === null) severity = null;
+  if (raw.severity === null || raw.severity === undefined) severity = null;
   else if (typeof raw.severity === "string" && SEVERITIES.includes(raw.severity)) severity = raw.severity as Severity;
   else return "severity must be critical, serious, minor or null";
   const c = raw.consequence;
   if (!isObj(c) || !nonEmpty(c.low) || !nonEmpty(c.high) || !nonEmpty(c.basis)) {
     return "consequence needs low, high and basis";
   }
+  // ADR 0005: the document's own confidentiality clause sits outside the tiers. A model that returns
+  // it as a risk flag, or gives it a tier, is corrected here, because a prompt is only a request.
+  const kind: Flag["kind"] = raw.kind === "confidentiality" || isConfidentialityType(clauseType) ? "confidentiality" : "risk";
+  if (kind === "confidentiality") severity = null;
   const flag: Flag = {
     id,
-    kind: raw.kind,
+    kind,
     clauseType,
     severity,
     sourceSentence: raw.sourceSentence,
@@ -161,9 +174,14 @@ export async function analyse(
     return retier(result, contractValue);
   }
 
-  result.summary = str(raw.summary) ?? "";
+  // The summary has no source sentence, so code cannot check that it is true. It can check that it
+  // exists: a missing or blank summary is recorded as a failure of the summary section, and the view
+  // says "Summary unavailable" instead of showing an empty block.
+  result.summary = (str(raw.summary) ?? "").trim();
   if (raw.summary !== undefined && typeof raw.summary !== "string") {
-    drop({ kind: "payload", reason: "malformed", label: "summary", detail: "summary is not a string" });
+    drop({ kind: "summary", reason: "malformed", label: "summary", detail: "summary is not a string" });
+  } else if (result.summary === "") {
+    drop({ kind: "summary", reason: "empty", label: "summary", detail: "summary is missing or blank" });
   }
 
   // Flags

@@ -1,6 +1,6 @@
 # 09 — Flag the document's own confidentiality clause
 
-Status: ready-for-agent
+Status: done
 Blocked by: 04
 
 **What to build:** when the uploaded document restricts disclosing its
@@ -12,7 +12,7 @@ severity model: the clause is flagged because of what uploading implies, not
 because it is dangerous under ADR 0003. It must look like an exception, not be
 smuggled into a tier.
 
-- [ ] A confidentiality or non-disclosure clause is flagged whenever it is present, with its source sentence
-- [ ] The flag sits outside the severity tiers and is labelled as a different kind of flag
-- [ ] It states plainly that the text was sent to a third-party model provider to produce this analysis
-- [ ] It does not count toward the false-positive budget in PRD criterion 7
+- [x] A confidentiality or non-disclosure clause is flagged whenever it is present, with its source sentence
+- [x] The flag sits outside the severity tiers and is labelled as a different kind of flag
+- [x] It states plainly that the text was sent to a third-party model provider to produce this analysis
+- [x] It does not count toward the false-positive budget in PRD criterion 7

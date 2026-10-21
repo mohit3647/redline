@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { countMissingCounterOffers, hasCounterOffer } from '../lib/analyse/counts';
 import { orderFlags } from '../lib/analyse/order';
+import { COPIED_MESSAGE, COPY_FAILED_MESSAGE, copyText } from '../lib/copy';
 import { FEE_UNKNOWN_NOTE, formatMoney, parseContractValue } from '../lib/analyse/tier';
 import type { AnchorType, Analysis, ContractValue, Flag, TierBasis } from '../lib/analyse/types';
 
@@ -11,21 +13,38 @@ export function NotLegalAdvice() {
   return <p className="result-notice">Redline is not legal advice.</p>;
 }
 
-function CopyButton({ text }: { text: string }) {
-  const [done, setDone] = useState(false);
-  async function copy() {
-    try {
-      await navigator.clipboard.writeText(text);
-      setDone(true);
-      setTimeout(() => setDone(false), 2200);
-    } catch {
-      // Clipboard can be blocked; the text stays selectable on screen.
-    }
+export function CopyButton({ text, copy = copyText }: { text: string; copy?: (text: string) => Promise<boolean> }) {
+  const [status, setStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
+  async function run() {
+    const ok = await copy(text);
+    setStatus(ok ? 'copied' : 'failed');
+    setTimeout(() => setStatus('idle'), 3000);
   }
   return (
-    <button type="button" className="copy-button" onClick={() => void copy()}>
-      {done ? 'Copied' : 'Copy counter-offer'}
-    </button>
+    <>
+      <button type="button" className="copy-button" onClick={() => void run()}>
+        Copy counter-offer
+      </button>
+      <span className="copy-status" role="status" aria-live="polite">
+        {status === 'copied' ? COPIED_MESSAGE : status === 'failed' ? COPY_FAILED_MESSAGE : ''}
+      </span>
+    </>
+  );
+}
+
+function CounterOffer({ flag }: { flag: Flag }) {
+  return (
+    <div className="counter">
+      <p className="block-label">Ask for instead</p>
+      {hasCounterOffer(flag) ? (
+        <>
+          <p className="counter-text">{flag.counterOffer}</p>
+          <CopyButton text={flag.counterOffer} />
+        </>
+      ) : (
+        <p className="counter-text counter-text--none">No counter-offer drafted</p>
+      )}
+    </div>
   );
 }
 
@@ -85,11 +104,7 @@ function RiskFlag({ flag, n }: { flag: Flag; n: number }) {
       <Quotation text={flag.sourceSentence} />
       <Reading flag={flag} />
       <TierLine flag={flag} />
-      <div className="counter">
-        <p className="block-label">Ask for instead</p>
-        <p className="counter-text">{flag.counterOffer}</p>
-        <CopyButton text={flag.counterOffer} />
-      </div>
+      <CounterOffer flag={flag} />
     </li>
   );
 }
@@ -253,13 +268,21 @@ export function AnalysisView({
   onContractValue?: (v: ContractValue | null) => void;
 }) {
   const { ranked, confidentiality } = orderFlags(analysis.flags);
-  const dropped = analysis.dropped.filter((d) => d.kind !== 'payload' && d.kind !== 'absent').length;
+  const missingCounterOffers = countMissingCounterOffers(analysis);
+  const dropped = analysis.dropped.filter((d) => d.kind !== 'payload' && d.kind !== 'absent' && d.kind !== 'summary').length;
   return (
     <div className="result">
       <NotLegalAdvice />
       <section aria-labelledby="sum-h" className="result-block">
         <h2 id="sum-h" className="intake-h">What this agreement does</h2>
-        {analysis.summary ? <p className="auth-body">{analysis.summary}</p> : null}
+        {analysis.summary.trim() ? (
+          <p className="auth-body">{analysis.summary}</p>
+        ) : (
+          <p className="auth-body" role="status">
+            <span className="stamp-label stamp-label--undecided">Summary unavailable</span> The analysis came back without a
+            summary. The flags and the cleared list below do not depend on it.
+          </p>
+        )}
       </section>
 
       <FeePanel analysis={analysis} onContractValue={onContractValue} />
@@ -268,6 +291,12 @@ export function AnalysisView({
         <p className="intake-note" role="status">
           {dropped} {dropped === 1 ? 'item' : 'items'} in the model&rsquo;s answer left out: Redline could not find
           the quoted sentence in your document, so it does not show them.
+        </p>
+      ) : null}
+
+      {missingCounterOffers > 0 ? (
+        <p className="intake-note" role="status">
+          {missingCounterOffers} {missingCounterOffers === 1 ? 'flag has' : 'flags have'} no counter-offer drafted.
         </p>
       ) : null}
 
@@ -284,15 +313,19 @@ export function AnalysisView({
 
       {confidentiality.length > 0 ? (
         <section aria-labelledby="conf-h" className="result-block">
-          <h2 id="conf-h" className="intake-h">This document&rsquo;s own confidentiality clause</h2>
+          <h2 id="conf-h" className="intake-h">
+            <span className="stamp-label stamp-label--notice">Disclosure notice</span> This document&rsquo;s own confidentiality clause
+          </h2>
           <p className="auth-body">
-            Sending this text to Redline for analysis may breach it. Read the clause before you rely on this analysis.
+            Redline sent the text of this document to a third-party model provider to produce this analysis. This clause
+            restricts disclosing the document, so uploading it may breach the clause. This is not a severity and does not count as a flag.
           </p>
           <ul className="flag-list">
             {confidentiality.map((f) => (
               <li key={f.id} className="flag-item">
                 <Quotation text={f.sourceSentence} />
                 <Reading flag={f} />
+                <CounterOffer flag={f} />
               </li>
             ))}
           </ul>

@@ -11,7 +11,12 @@ CLAIM NOTHING THE DOCUMENT DOES NOT SAY
 Do not infer from what is missing, from scattered clauses, or from what is typical. Do not describe the law of any jurisdiction. If the text does not support a statement, do not make it. This applies to the summary, the claims, the consequences, the counter-offers and the cleared findings.
 
 SUMMARY
-Two to five sentences in plain English: who the parties are, what the signer must deliver, what the signer is paid and when, and how the agreement ends, as far as the text says. Describe only what is written.
+Two to five sentences in plain English: who the parties are, what the signer must deliver, what the signer is paid and when, and how the agreement ends, as far as the text says. Rules for the summary:
+- Describe only what is written. If the document does not say something, leave it out or write "the document does not say". Do not fill a gap with what is typical.
+- "The client" means the other side of the agreement, the party the signer would send a counter-offer to. "The signer" means the freelancer reading it. Never use "client" for the signer, and never use "user" or "customer".
+- Use the document's own figures, dates and party names. Do not add numbers it does not state.
+- Do not say whether the agreement is good, fair or safe, and do not give legal advice. Risks belong in the flags.
+- The summary is never empty.
 
 FEE
 If the document states a fee for the job, return it with the sentence that states it, copied exactly. Otherwise return null. Do not compute a fee from rates or hours.
@@ -55,7 +60,11 @@ VOICE
 - No legal advice, no verdicts on whether to sign, no statement about what a court would do.
 
 COUNTER-OFFER
-For each flag, draft replacement language the signer can send to the client as written. Keep it polite, short and specific, written as contract text the client could accept. A reasonable ask ("cap indemnity at the fees paid under this Agreement") is stronger than an accusation. Do not call it a "redline". Do not say the clause is dangerous in the counter-offer.
+Every flag, including a confidentiality flag, carries a counter-offer. Draft replacement language the signer can send to the client as written. Keep it polite, short and specific, written as contract text the client could accept. A reasonable ask ("cap indemnity at the fees paid under this Agreement") is stronger than an accusation. Rules for the counter-offer:
+- Say nothing about the document that its text does not support. Refer to the clause only as the text states it. Do not claim what the clause "would" do, what the parties "intended", or what other sections say unless you have read it there.
+- You may call a clause unusual, and only inside the counter-offer, as a negotiating argument, for example "most clients accept a cap at fees paid". Unusual is never a reason to flag a clause, and it never appears in a claim or a consequence.
+- Do not call it a "redline". Do not say the clause is dangerous in the counter-offer. Do not threaten, and do not give legal advice.
+- Never leave it empty.
 
 RED LINES
 The signer may list red lines, standing objections of their own. A red line may make a clause worth flagging that would otherwise be cleared, and may raise a flag one tier (serious to critical). It never lowers a tier and never lets you quote anything not in the document. When a red line changes a flag, set triggeredByRedLine to the red line's text exactly; otherwise null.

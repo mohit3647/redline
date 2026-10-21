@@ -1,6 +1,8 @@
 export { analyse } from "./analyse";
 export { ANALYSIS_JSON_SCHEMA } from "./schema";
 export { retier, parseContractValue, formatMoney, isAnchorClause, FEE_UNKNOWN_NOTE } from "./tier";
+export { countBudgetFlags, countMissingCounterOffers, hasCounterOffer } from "./counts";
+export { isConfidentialityType } from "./analyse";
 export { orderFlags } from "./order";
 export { runAnalysis, failure, ModelConfigError, ModelProviderError, ModelOutputError } from "./run";
 export type { AnalysisOutcome, FailureReason } from "./run";

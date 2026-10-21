@@ -469,4 +469,7 @@ footer { padding: 28px var(--gutter) 40px; border-top: 1px solid rgba(207, 213, 
 .counter { margin-top: 16px; }
 .counter-text { white-space: pre-wrap; max-width: 56ch; }
 .copy-button { margin-top: 10px; padding: 10px 16px 10px 30px; border: 0; border-radius: 0; cursor: pointer; background: var(--field); color: var(--bond); font: 700 .95rem/1 var(--f-ui); clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 calc(100% - 12px), 0 12px); }
+.copy-status { margin-left: 12px; font: 600 .9rem/1 var(--f-ui); }
+.counter-text--none { font-style: italic; }
+.stamp-label--notice { background: var(--bond); border: 2px solid var(--ink); }
 .copy-button:hover { background: var(--field-deep); }

@@ -39,6 +39,12 @@ export interface StubOptions {
    * A flag with no entry has no figure in the text, so all three are null.
    */
   bounds?: Record<string, { low: number | null; high: number | null; currency: string | null }>;
+  /** Replaces the summary the stub returns (any value, to test malformed output). */
+  summary?: unknown;
+  /** Counter-offer text by flag id. */
+  counterOffers?: Record<string, unknown>;
+  /** Fields merged over a sidecar flag by id, e.g. a severity or a kind the model should not have used. */
+  flagOverrides?: Record<string, Record<string, unknown>>;
   /** Called on each model invocation. */
   onCall?: () => void;
 }
@@ -81,7 +87,7 @@ export function stubModel(fixture: FixtureName, options: StubOptions = {}): Anal
     async analyse() {
       options.onCall?.();
       if ("rawPayload" in options) return options.rawPayload;
-      const flags = sidecar.flags.map((f) => ({
+      const flags: Array<Record<string, unknown>> = sidecar.flags.map((f) => ({
         id: f.id,
         kind: f.kind,
         clauseType: f.clauseType,
@@ -89,7 +95,8 @@ export function stubModel(fixture: FixtureName, options: StubOptions = {}): Anal
         sourceSentence: q(f.id, f.sourceSentence),
         claim: `The document says: ${f.clauseType}.`,
         consequence: { low: "Low estimate", high: "High estimate", basis: "Stub basis", ...boundFor(f.id) },
-        counterOffer: `Replacement language for ${f.id}.`,
+        counterOffer: options.counterOffers && f.id in options.counterOffers ? options.counterOffers[f.id] : `Replacement language for ${f.id}.`,
+        ...options.flagOverrides?.[f.id],
       }));
       if (options.hallucinatedQuote !== undefined) {
         flags.push({
@@ -116,7 +123,7 @@ export function stubModel(fixture: FixtureName, options: StubOptions = {}): Anal
         });
       }
       return {
-        summary: "Stub summary.",
+        summary: "summary" in options ? options.summary : "Stub summary.",
         absent: options.absent ?? [],
         fee: options.noFee ? null : { ...sidecar.fee, sourceSentence: q("fee", sidecar.fee.sourceSentence) },
         flags,
