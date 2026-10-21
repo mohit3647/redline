@@ -48,7 +48,7 @@ function CounterOffer({ flag }: { flag: Flag }) {
   );
 }
 
-function Quotation({ text }: { text: string }) {
+export function Quotation({ text }: { text: string }) {
   return (
     <figure className="from-doc">
       <figcaption className="block-label">From the document</figcaption>

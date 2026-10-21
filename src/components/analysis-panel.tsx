@@ -6,6 +6,7 @@ import type { Analysis, ContractValue } from '../lib/analyse/types';
 import { listRedLines } from '../lib/red-lines/actions';
 import { readSessionRedLines } from '../lib/red-lines/session-store';
 import { AnalysisView, NotLegalAdvice } from './analysis-view';
+import { QuestionBox } from './question-box';
 
 type State =
   | { s: 'idle' }
@@ -82,6 +83,7 @@ export function AnalysisPanel({ text }: { text: string }) {
             analysis={retier(state.analysis, state.value)}
             onContractValue={(v) => setState({ ...state, value: v ?? undefined })}
           />
+          <QuestionBox text={text} />
         </>
       ) : (
         <>

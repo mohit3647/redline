@@ -52,10 +52,10 @@ function nonEmpty(v: unknown): string | undefined {
   return typeof v === "string" && v.trim().length > 0 ? v : undefined;
 }
 
-type QuoteCheck = { ok: true } | { ok: false; reason: "empty-quote" | "not-verbatim" };
+export type QuoteCheck = { ok: true } | { ok: false; reason: "empty-quote" | "not-verbatim" };
 
 /** ADR 0001: exact substring, no normalisation of any kind. */
-function checkQuote(documentText: string, quote: string): QuoteCheck {
+export function checkQuote(documentText: string, quote: string): QuoteCheck {
   if (quote.trim().length === 0) return { ok: false, reason: "empty-quote" };
   return documentText.includes(quote) ? { ok: true } : { ok: false, reason: "not-verbatim" };
 }

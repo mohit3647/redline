@@ -11,65 +11,93 @@ export interface OpenRouterEnv {
   OPENROUTER_MODEL?: string;
 }
 
-/** Builds the request body. The model id comes from the environment only; none is written in code. */
-export function buildRequestBody(model: string, input: Parameters<AnalysisModel["analyse"]>[0]) {
+export type ChatMessage = { role: "system" | "user"; content: string };
+
+/** The one request shape for every Redline model call. The model id comes from the environment only. */
+export function buildChatBody(model: string, messages: ChatMessage[], schemaName: string, schema: unknown) {
   return {
     model,
-    messages: [
-      { role: "system", content: SYSTEM_PROMPT },
-      { role: "user", content: buildUserPrompt(input) },
-    ],
+    messages,
     // ADR 0005: zero-data-retention routes only, pinned provider, no fallback to an unpinned route.
     provider: { order: ["fireworks"], allow_fallbacks: false, require_parameters: true, zdr: true },
     reasoning: { effort: "low" },
-    response_format: {
-      type: "json_schema",
-      json_schema: { name: "redline_analysis", strict: true, schema: ANALYSIS_JSON_SCHEMA },
-    },
+    response_format: { type: "json_schema", json_schema: { name: schemaName, strict: true, schema } },
   };
 }
 
+/** Builds the analysis request body. */
+export function buildRequestBody(model: string, input: Parameters<AnalysisModel["analyse"]>[0]) {
+  return buildChatBody(
+    model,
+    [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: buildUserPrompt(input) },
+    ],
+    "redline_analysis",
+    ANALYSIS_JSON_SCHEMA,
+  );
+}
+
+export function readOpenRouterEnv(): OpenRouterEnv {
+  return { OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY, OPENROUTER_MODEL: process.env.OPENROUTER_MODEL };
+}
+
+/**
+ * Server-side only. Posts one structured-output request and returns the parsed JSON content.
+ * Throws the named errors the seams map to failure states.
+ */
+export async function callOpenRouter(env: OpenRouterEnv, messages: ChatMessage[], schemaName: string, schema: unknown): Promise<unknown> {
+  const key = env.OPENROUTER_API_KEY?.trim();
+  const model = env.OPENROUTER_MODEL?.trim();
+  if (!key) throw new ModelConfigError("OPENROUTER_API_KEY is not set");
+  if (!model) throw new ModelConfigError("OPENROUTER_MODEL is not set");
+
+  let res: Response;
+  try {
+    res = await fetch(OPENROUTER_URL, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify(buildChatBody(model, messages, schemaName, schema)),
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+    });
+  } catch (e) {
+    throw new ModelProviderError(`request to OpenRouter failed: ${e instanceof Error ? e.name : "unknown"}`);
+  }
+
+  let body: unknown;
+  try {
+    body = await res.json();
+  } catch {
+    if (!res.ok) throw new ModelProviderError(`OpenRouter returned HTTP ${res.status}`, res.status);
+    throw new ModelOutputError("OpenRouter response was not JSON");
+  }
+  const errorMessage = readError(body);
+  if (!res.ok || errorMessage) {
+    throw new ModelProviderError(errorMessage ?? `OpenRouter returned HTTP ${res.status}`, res.ok ? undefined : res.status);
+  }
+
+  const content = readContent(body);
+  if (content === undefined) throw new ModelOutputError("OpenRouter response had no message content");
+  try {
+    return JSON.parse(content) as unknown;
+  } catch {
+    throw new ModelOutputError("model content was not valid JSON");
+  }
+}
+
 /** Server-side only: reads the key and model at call time. */
-export function createOpenRouterModel(readEnv: () => OpenRouterEnv = () => ({ OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY, OPENROUTER_MODEL: process.env.OPENROUTER_MODEL })): AnalysisModel {
+export function createOpenRouterModel(readEnv: () => OpenRouterEnv = readOpenRouterEnv): AnalysisModel {
   return {
     async analyse(input): Promise<RawAnalysisPayload> {
-      const env = readEnv();
-      const key = env.OPENROUTER_API_KEY?.trim();
-      const model = env.OPENROUTER_MODEL?.trim();
-      if (!key) throw new ModelConfigError("OPENROUTER_API_KEY is not set");
-      if (!model) throw new ModelConfigError("OPENROUTER_MODEL is not set");
-
-      let res: Response;
-      try {
-        res = await fetch(OPENROUTER_URL, {
-          method: "POST",
-          headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-          body: JSON.stringify(buildRequestBody(model, input)),
-          signal: AbortSignal.timeout(TIMEOUT_MS),
-        });
-      } catch (e) {
-        throw new ModelProviderError(`request to OpenRouter failed: ${e instanceof Error ? e.name : "unknown"}`);
-      }
-
-      let body: unknown;
-      try {
-        body = await res.json();
-      } catch {
-        if (!res.ok) throw new ModelProviderError(`OpenRouter returned HTTP ${res.status}`, res.status);
-        throw new ModelOutputError("OpenRouter response was not JSON");
-      }
-      const errorMessage = readError(body);
-      if (!res.ok || errorMessage) {
-        throw new ModelProviderError(errorMessage ?? `OpenRouter returned HTTP ${res.status}`, res.ok ? undefined : res.status);
-      }
-
-      const content = readContent(body);
-      if (content === undefined) throw new ModelOutputError("OpenRouter response had no message content");
-      try {
-        return JSON.parse(content) as unknown;
-      } catch {
-        throw new ModelOutputError("model content was not valid JSON");
-      }
+      return callOpenRouter(
+        readEnv(),
+        [
+          { role: "system", content: SYSTEM_PROMPT },
+          { role: "user", content: buildUserPrompt(input) },
+        ],
+        "redline_analysis",
+        ANALYSIS_JSON_SCHEMA,
+      );
     },
   };
 }

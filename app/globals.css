@@ -487,3 +487,7 @@ footer { padding: 28px var(--gutter) 40px; border-top: 1px solid rgba(207, 213, 
 .redline-link:disabled { opacity: .6; cursor: progress; }
 .applied-lines { margin-top: 14px; max-width: 56ch; }
 .applied-lines ul { margin: 6px 0 0; padding-left: 1.2em; }
+
+.question-box textarea.auth-input { width: 100%; max-width: 62ch; resize: vertical; font: 400 1rem/1.5 var(--f-ui); }
+.question-box .auth-button { margin-top: 14px; }
+.answer-region { margin-top: 20px; }
