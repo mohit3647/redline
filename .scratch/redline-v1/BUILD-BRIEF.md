@@ -26,3 +26,4 @@ Package manager pnpm. Scripts: `pnpm typecheck` (tsc --noEmit), `pnpm test` (vit
 
 ## Final report format
 Files changed, dependencies added (with why), tests added and what each proves, anything you could not verify, any decision you made in place of asking.
+Note: bare `pnpm` is not on PATH in this environment; run it as `corepack pnpm <script>` (same version, 10.34.5).
