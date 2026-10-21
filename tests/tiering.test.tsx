@@ -108,10 +108,9 @@ describe("extracted fee: the rule", () => {
         },
       ],
     };
-    const a = await run({ rawPayload: withRedLine });
+    const a = await analyse(adhesion.text, [{ text: "No liability caps" }], stubModel("adhesion-contract", { rawPayload: withRedLine }), undefined, { logger: () => {} });
     expect(a.flags).toHaveLength(1);
-    expect(a.flags[0]).toMatchObject({ severity: "serious", tierBasis: "fee-extracted" });
-    expect(a.flags[0].tierNote).toMatch(/red line/);
+    expect(a.flags[0]).toMatchObject({ severity: "serious", tierBasis: "red-line" });
   });
 });
 

@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 const LINKS = [
   { href: '/app', label: 'Home' },
   { href: '/app/new', label: 'New agreement' },
+  { href: '/app/red-lines', label: 'Red lines' },
 ];
 
 export function ShellNav() {

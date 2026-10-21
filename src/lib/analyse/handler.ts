@@ -1,5 +1,6 @@
 import { runAnalysis } from "./run";
 import type { AnalysisOutcome } from "./run";
+import { checkRedLineText, MAX_RED_LINES } from "../red-lines/rules";
 import type { AnalysisModel, ContractValue, RedLine } from "./types";
 
 export interface HandlerDeps {
@@ -15,13 +16,16 @@ function json(body: unknown, status: number): Response {
   return Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 }
 
+/** At most 20 red lines of 1 to 500 characters each. Anything outside that is refused, not trimmed to fit. */
 function parseRedLines(v: unknown): RedLine[] | null {
   if (v === undefined) return [];
-  if (!Array.isArray(v)) return null;
+  if (!Array.isArray(v) || v.length > MAX_RED_LINES) return null;
   const out: RedLine[] = [];
   for (const r of v) {
-    if (typeof r !== "object" || r === null || typeof (r as { text?: unknown }).text !== "string") return null;
-    out.push({ text: (r as { text: string }).text });
+    if (typeof r !== "object" || r === null) return null;
+    const check = checkRedLineText((r as { text?: unknown }).text);
+    if (!check.ok) return null;
+    out.push({ text: check.text });
   }
   return out;
 }
@@ -51,6 +55,9 @@ export async function handleAnalyse(request: Request, deps: HandlerDeps): Promis
   const b = (typeof body === "object" && body !== null ? body : {}) as Record<string, unknown>;
   const redLines = parseRedLines(b.redLines);
   const contractValue = parseValue(b.contractValue);
+  if (!redLines) {
+    return json({ status: "failed", reason: "bad-request", message: "Red lines must be 20 or fewer, each between 1 and 500 characters." }, 400);
+  }
   if (typeof b.text !== "string" || b.text.trim() === "" || b.text.length > MAX_TEXT || !redLines || contractValue === null) {
     return json({ status: "failed", reason: "bad-request", message: "The request needs the agreement text." }, 400);
   }

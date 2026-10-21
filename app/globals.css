@@ -473,3 +473,17 @@ footer { padding: 28px var(--gutter) 40px; border-top: 1px solid rgba(207, 213, 
 .counter-text--none { font-style: italic; }
 .stamp-label--notice { background: var(--bond); border: 2px solid var(--ink); }
 .copy-button:hover { background: var(--field-deep); }
+
+/* ---------- Red lines ---------- */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.redline-list { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
+.redline-item { padding: 12px 14px; background: #fff; border-left: 4px solid var(--field); max-width: 56ch; }
+.redline-list--defaults .redline-item { background: var(--paper); border-left-style: dashed; }
+.redline-text { font: 650 .95rem/1.4 var(--f-ui); }
+.redline-actions { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-top: 8px; }
+.redline-actions .auth-button { margin-top: 0; }
+.redline-link { background: none; border: 0; padding: 4px 0; color: var(--field); text-decoration: underline; cursor: pointer; font: 700 .9rem/1.2 var(--f-ui); }
+.redline-link:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.redline-link:disabled { opacity: .6; cursor: progress; }
+.applied-lines { margin-top: 14px; max-width: 56ch; }
+.applied-lines ul { margin: 6px 0 0; padding-left: 1.2em; }

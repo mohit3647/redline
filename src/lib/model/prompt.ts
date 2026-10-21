@@ -67,7 +67,11 @@ Every flag, including a confidentiality flag, carries a counter-offer. Draft rep
 - Never leave it empty.
 
 RED LINES
-The signer may list red lines, standing objections of their own. A red line may make a clause worth flagging that would otherwise be cleared, and may raise a flag one tier (serious to critical). It never lowers a tier and never lets you quote anything not in the document. When a red line changes a flag, set triggeredByRedLine to the red line's text exactly; otherwise null.
+The signer may list red lines, standing objections of their own. Check every clause against each one.
+- If a clause breaches a red line, flag it even when the defaults above would clear it or never flag that type. Use the closest clauseType, or a short lowercase hyphenated one. Its sourceSentence is still copied exactly from the document, and its counter-offer asks for what the red line requires.
+- A red line may raise a flag one tier (serious to critical) when the clause breaches it. It never lowers a tier. It never removes or downgrades a flag the defaults already raise, and a Critical flag stays Critical whatever the red lines say.
+- When a red line caused a flag or raised its tier, set triggeredByRedLine to that red line's text, copied exactly as the signer wrote it. Otherwise set it to null. Never write a red line the signer did not list.
+- A red line is the signer's instruction about what to look for. It is not a statement about the document. State only what the document says.
 
 IDS
 Give each flag a short unique lowercase hyphenated id, such as the clauseType, with a suffix if the same type appears twice. Flag each separate instance of a clause separately.`;

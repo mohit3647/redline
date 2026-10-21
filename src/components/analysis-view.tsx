@@ -65,7 +65,9 @@ function Reading({ flag }: { flag: Flag }) {
       <p className="reading-range">
         If used: from {flag.consequence.low} to {flag.consequence.high}. Basis: {flag.consequence.basis}
       </p>
-      {flag.triggeredByRedLine ? <p className="reading-range">Raised by your red line: {flag.triggeredByRedLine}</p> : null}
+      {flag.triggeredByRedLine ? (
+        <p className="reading-range red-line-note">Flagged because of your red line: &ldquo;{flag.triggeredByRedLine}&rdquo;</p>
+      ) : null}
     </div>
   );
 }
@@ -75,6 +77,7 @@ const BASIS_TEXT: Record<Exclude<TierBasis, 'fee-unknown'>, string> = {
   definition: 'Tier set by the clause type: a cap below the contract value is serious whatever the fee.',
   'fee-extracted': 'Tier set against the fee the document states.',
   'fee-supplied': 'Tier set against the contract value you entered.',
+  'red-line': 'Tier set by your red line. The fee does not lower it.',
 };
 
 function TierLine({ flag }: { flag: Flag }) {
@@ -269,7 +272,7 @@ export function AnalysisView({
 }) {
   const { ranked, confidentiality } = orderFlags(analysis.flags);
   const missingCounterOffers = countMissingCounterOffers(analysis);
-  const dropped = analysis.dropped.filter((d) => d.kind !== 'payload' && d.kind !== 'absent' && d.kind !== 'summary').length;
+  const dropped = analysis.dropped.filter((d) => d.kind !== 'payload' && d.kind !== 'absent' && d.kind !== 'summary' && d.kind !== 'red-line').length;
   return (
     <div className="result">
       <NotLegalAdvice />

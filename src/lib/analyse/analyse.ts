@@ -212,8 +212,27 @@ export async function analyse(
       });
       continue;
     }
+    // A red line the signer did not supply cannot be credited with a flag. The field is cleared and the
+    // flag stays, because its sentence verified. The match is exact after trimming; the canonical text
+    // the signer supplied is what the flag then carries.
+    if (parsed.triggeredByRedLine !== undefined) {
+      const wanted = parsed.triggeredByRedLine.trim();
+      const supplied = redLines.map((r) => r.text.trim()).find((t) => t === wanted);
+      if (supplied === undefined) {
+        drop({
+          kind: "red-line",
+          reason: "unknown-red-line",
+          label: parsed.id,
+          detail: "triggeredByRedLine does not match any red line the signer supplied; the attribution was removed and the flag kept",
+        });
+        delete parsed.triggeredByRedLine;
+      } else {
+        parsed.triggeredByRedLine = supplied;
+      }
+    }
     // The source sentence is verified above, so a moved flag keeps it and the seam's guarantee holds.
-    const note = parsed.kind === "risk" ? clearedOnlyNote(parsed.clauseType) : undefined;
+    // A flag the signer's red line triggered is never moved to the cleared list by clause type.
+    const note = parsed.kind === "risk" && parsed.triggeredByRedLine === undefined ? clearedOnlyNote(parsed.clauseType) : undefined;
     if (note) {
       movedFlags.push({
         clauseType: parsed.clauseType,

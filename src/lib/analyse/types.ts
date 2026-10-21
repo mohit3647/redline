@@ -16,7 +16,7 @@ export interface Consequence {
 }
 
 /** What the Serious-or-Minor tier of a flag rests on (ADR 0006). Absent on confidentiality flags. */
-export type TierBasis = "unboundedness" | "definition" | "fee-extracted" | "fee-supplied" | "fee-unknown";
+export type TierBasis = "unboundedness" | "definition" | "fee-extracted" | "fee-supplied" | "fee-unknown" | "red-line";
 
 export interface Flag {
   id: string;
@@ -78,10 +78,10 @@ export type Fee =
   | { state: "supplied"; amount: number; currency: string }
   | { state: "unknown" };
 
-export type DropReason = "not-verbatim" | "empty-quote" | "malformed" | "contradicted" | "empty";
+export type DropReason = "not-verbatim" | "empty-quote" | "malformed" | "contradicted" | "empty" | "unknown-red-line";
 
 export interface Dropped {
-  kind: "flag" | "cleared" | "fee" | "absent" | "payload" | "summary";
+  kind: "flag" | "cleared" | "fee" | "absent" | "payload" | "summary" | "red-line";
   reason: DropReason;
   /** The clause id or type if one could be read from the raw item. */
   label?: string;

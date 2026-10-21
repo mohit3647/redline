@@ -74,6 +74,12 @@ function tierOne(flag: Flag, fee: Fee): Tiered {
   // Named anchors have no natural limit, so the fee does not move them.
   if (isAnchorClause(flag.clauseType)) return { flag: { ...base, severity: flag.severity ?? "serious", tierBasis: "unboundedness" }, minor: false };
 
+  // A red line may raise a tier and never lowers one, and the fee never moves a flag it triggered.
+  // With the fee unknown the tier stays the one the model gave, not an open one.
+  if (flag.triggeredByRedLine) {
+    return { flag: { ...base, severity: "serious", tierBasis: "red-line" }, minor: false };
+  }
+
   if (fee.state === "unknown") return { flag: { ...base, severity: null, tierBasis: "fee-unknown" }, minor: false };
 
   const basis: TierBasis = fee.state === "extracted" ? "fee-extracted" : "fee-supplied";
@@ -82,9 +88,6 @@ function tierOne(flag: Flag, fee: Fee): Tiered {
     if (tierNote) f.tierNote = tierNote;
     return { flag: f, minor: false };
   };
-  // A red line never lowers a tier.
-  if (flag.triggeredByRedLine) return serious("Kept as serious because it matches your red line.");
-
   const c = flag.consequence;
   const high = c.highAmount;
   if (typeof high !== "number" || !Number.isFinite(high) || !c.currency) {
