@@ -416,3 +416,21 @@ footer { padding: 28px var(--gutter) 40px; border-top: 1px solid rgba(207, 213, 
   .shell-nav ul { display: flex; gap: 22px; }
   .auth-sheet, .sheet { padding: 26px 22px 30px; }
 }
+
+/* ---------- Intake ---------- */
+.intake { background: var(--bond); color: var(--ink); max-width: 46rem; padding: 34px 40px 40px; box-shadow: 0 10px 22px rgba(0, 0, 0, .3); }
+.intake-step { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--rule, #cdd1e2); }
+.intake-h { font: 800 1.7rem/1 var(--f-display); text-transform: uppercase; }
+.intake-note { margin-top: 14px; padding: 12px 14px; border-left: 4px solid var(--field); background: var(--paper); color: var(--ink); max-width: 56ch; }
+.intake-done { margin-top: 14px; font-weight: 650; }
+.intake-choices { display: flex; flex-wrap: wrap; gap: 12px; }
+.intake-choices .auth-button { margin-top: 22px; }
+.intake-secondary { margin-top: 22px; padding: 13px 24px 12px; border: 2px solid var(--field); background: transparent; color: var(--field); border-radius: 0; cursor: pointer; font: 700 1.08rem/1 var(--f-ui); font-stretch: 94%; }
+.intake-secondary:hover { background: var(--paper); }
+.intake input[type="file"] { background: #fff; }
+.intake-text {
+  margin: 16px 0 0; padding: 20px 24px; max-height: 28rem; overflow: auto;
+  background: var(--bond); color: var(--ink); border: 1px solid var(--rule, #cdd1e2);
+  font: 400 .95rem/1.55 var(--f-doc); white-space: pre-wrap; overflow-wrap: anywhere;
+}
+@media (max-width: 720px) { .intake { padding: 26px 20px 30px; } }
