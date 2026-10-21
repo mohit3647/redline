@@ -1,6 +1,7 @@
 'use client';
 
 import { useId, useRef, useState } from 'react';
+import { AnalysisPanel } from './analysis-panel';
 import { saveDocument } from '../lib/documents/actions';
 import {
   ACCEPTED_EXTENSIONS,
@@ -186,7 +187,7 @@ export function UploadFlow({ configured }: { configured: boolean }) {
           </p>
           <pre className="intake-text" tabIndex={0} aria-label="Extracted agreement text">{extracted.text}</pre>
           {kept ? (
-            <p className="intake-done" role="status">{kept.note} Analysis is not available yet.</p>
+            <p className="intake-done" role="status">{kept.note}</p>
           ) : (
             <button type="button" className="auth-button" disabled={busy} onClick={() => void keep()}>
               {busy ? 'Keeping' : configured ? 'Save this text' : 'Keep this text'}
@@ -194,6 +195,8 @@ export function UploadFlow({ configured }: { configured: boolean }) {
           )}
         </section>
       ) : null}
+
+      {extracted && kept ? <AnalysisPanel text={extracted.text} /> : null}
     </div>
   );
 }

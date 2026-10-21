@@ -434,3 +434,25 @@ footer { padding: 28px var(--gutter) 40px; border-top: 1px solid rgba(207, 213, 
   font: 400 .95rem/1.55 var(--f-doc); white-space: pre-wrap; overflow-wrap: anywhere;
 }
 @media (max-width: 720px) { .intake { padding: 26px 20px 30px; } }
+
+/* ---------- Analysis result ---------- */
+.result-notice { margin-top: 14px; padding: 10px 14px; border: 2px solid var(--ink); font-weight: 700; max-width: 44ch; }
+.result-block { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--rule, #cdd1e2); }
+.flag-list { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 28px; }
+.flag-item { padding-bottom: 24px; border-bottom: 1px solid var(--rule, #cdd1e2); }
+.flag-head { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; font: 800 1.2rem/1 var(--f-display); text-transform: uppercase; }
+.stamp-label { font: 800 .92rem/1 var(--f-stamp); letter-spacing: .08em; text-transform: uppercase; padding: 5px 8px 4px; border: 2px solid currentColor; color: var(--ink); }
+.stamp-label--critical { background: var(--crit); border-color: var(--ink); }
+.stamp-label--serious { background: var(--serious); border-color: var(--ink); }
+.block-label { font: 700 .8rem/1 var(--f-ui); font-stretch: 88%; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 8px; }
+.from-doc { margin: 16px 0 0; }
+.quote { margin: 0; padding: 16px 20px; background: var(--bond); border: 1px solid var(--rule, #cdd1e2); border-left: 6px solid var(--ink); font: 400 1.14rem/1.55 var(--f-doc); max-width: 62ch; overflow-wrap: anywhere; box-shadow: 0 1px 2px rgba(20, 31, 99, .12); }
+.quote::before { content: "\201C"; }
+.quote::after { content: "\201D"; }
+.reading { margin-top: 16px; font-family: var(--f-ui); }
+.reading-claim { font: 650 .98rem/1.4 var(--f-ui); max-width: 56ch; }
+.reading-range { margin-top: 6px; font: 400 .9rem/1.4 var(--f-ui); font-stretch: 92%; color: var(--ink-soft); max-width: 56ch; }
+.counter { margin-top: 16px; }
+.counter-text { white-space: pre-wrap; max-width: 56ch; }
+.copy-button { margin-top: 10px; padding: 10px 16px 10px 30px; border: 0; border-radius: 0; cursor: pointer; background: var(--field); color: var(--bond); font: 700 .95rem/1 var(--f-ui); clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 calc(100% - 12px), 0 12px); }
+.copy-button:hover { background: var(--field-deep); }

@@ -1,6 +1,6 @@
 # 04 — Real flags with source sentences
 
-Status: ready-for-agent
+Status: done-real-model-unverified (OpenRouter key expired)
 Blocked by: 02, 03
 
 **What to build:** a signer uploads a real freelance agreement and sees its
@@ -18,12 +18,12 @@ Tiering here uses the degraded path settled for an unknown fee: tier on
 unboundedness alone. Critical works fully. Serious and Minor are not split yet.
 Ticket 06 adds the fee.
 
-- [ ] Analysis runs through 03's seam, with Claude Sonnet 5 via OpenRouter as the model (confirm the exact model id)
-- [ ] Every request routes only to zero-data-retention endpoints, configured per OpenRouter's current documentation, and a test asserts that configuration is present on every request (ADR 0005: a hard constraint, not a preference)
-- [ ] The OpenRouter key lives in `.env.local` and is used only on the server
-- [ ] The three anchors are detected: uncapped indemnity and over-broad IP assignment as Critical; termination for convenience without a kill fee as Serious (ADR 0003)
-- [ ] The rest of PRD §5's "also flagged" table is detected
-- [ ] Flags render in severity order, each showing its source sentence, visibly distinct from Redline's own interpretation (ADR 0004)
-- [ ] Voice: the text is described flatly and the consequence carries a stated range; no hedged descriptions of the text, no certain claims about consequence (PRD criterion 10)
-- [ ] Beside the analysis, Redline states plainly that it is not legal advice, without softening what the flags say (PRD §3)
-- [ ] A model response that yields no valid flags produces an explicit failure state, never a silent empty list
+- [x] Analysis runs through 03's seam, with Claude Sonnet 5 via OpenRouter as the model (confirm the exact model id)
+- [x] Every request routes only to zero-data-retention endpoints, configured per OpenRouter's current documentation, and a test asserts that configuration is present on every request (ADR 0005: a hard constraint, not a preference)
+- [x] The OpenRouter key lives in `.env.local` and is used only on the server
+- [x] The three anchors are detected: uncapped indemnity and over-broad IP assignment as Critical; termination for convenience without a kill fee as Serious (ADR 0003)
+- [x] The rest of PRD §5's "also flagged" table is detected
+- [x] Flags render in severity order, each showing its source sentence, visibly distinct from Redline's own interpretation (ADR 0004)
+- [x] Voice: the text is described flatly and the consequence carries a stated range; no hedged descriptions of the text, no certain claims about consequence (PRD criterion 10)
+- [x] Beside the analysis, Redline states plainly that it is not legal advice, without softening what the flags say (PRD §3)
+- [x] A model response that yields no valid flags produces an explicit failure state, never a silent empty list
