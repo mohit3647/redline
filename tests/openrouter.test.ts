@@ -191,7 +191,7 @@ describe("API handler", () => {
 
 describe("orderFlags", () => {
   const f = (id: string, severity: Flag["severity"], kind: Flag["kind"] = "risk"): Flag => ({
-    id, kind, clauseType: id, severity, sourceSentence: id, claim: "c", consequence: { low: "l", high: "h", basis: "b" }, counterOffer: "o",
+    id, kind, clauseType: id, severity, sourceSentence: id, claim: "c", consequence: { low: "l", high: "h", basis: "b", lowAmount: null, highAmount: null, currency: null }, counterOffer: "o",
   });
   it("orders critical, serious, minor, stable within a tier, and separates confidentiality", () => {
     const { ranked, confidentiality } = orderFlags([f("s1", "serious"), f("conf", null, "confidentiality"), f("m", "minor"), f("c1", "critical"), f("s2", "serious"), f("c2", "critical")]);

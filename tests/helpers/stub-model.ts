@@ -32,6 +32,13 @@ export interface StubOptions {
   omitCleared?: string[];
   /** Anchor types the stub claims are absent. */
   absent?: string[];
+  /** Leaves the fee out of the payload, as when the document states none. */
+  noFee?: boolean;
+  /**
+   * Numeric consequence bounds by flag id, in the currency given. Merged over the defaults.
+   * A flag with no entry has no figure in the text, so all three are null.
+   */
+  bounds?: Record<string, { low: number | null; high: number | null; currency: string | null }>;
   /** Called on each model invocation. */
   onCall?: () => void;
 }
@@ -54,8 +61,21 @@ export function nearMisses(quote: string): Record<string, string> {
   return m;
 }
 
+/**
+ * No clause in the adhesion contract states a figure for the most it could cost the signer. The
+ * liability cap limits what the signer can recover, so its $2,000 is not a cost bound and the stub
+ * gives it none. Tests that need a bound pass `bounds`.
+ */
+export const DEFAULT_BOUNDS: NonNullable<StubOptions["bounds"]> = {};
+
+const NO_BOUND = { low: null, high: null, currency: null };
+
 export function stubModel(fixture: FixtureName, options: StubOptions = {}): AnalysisModel {
   const { sidecar } = loadFixture(fixture);
+  const boundFor = (id: string) => {
+    const b = { ...DEFAULT_BOUNDS, ...options.bounds }[id] ?? NO_BOUND;
+    return { lowAmount: b.low, highAmount: b.high, currency: b.currency };
+  };
   const q = (id: string, quote: string) => options.mutateQuote?.[id]?.(quote) ?? quote;
   return {
     async analyse() {
@@ -68,7 +88,7 @@ export function stubModel(fixture: FixtureName, options: StubOptions = {}): Anal
         severity: f.expectedSeverityBand,
         sourceSentence: q(f.id, f.sourceSentence),
         claim: `The document says: ${f.clauseType}.`,
-        consequence: { low: "Low estimate", high: "High estimate", basis: "Stub basis" },
+        consequence: { low: "Low estimate", high: "High estimate", basis: "Stub basis", ...boundFor(f.id) },
         counterOffer: `Replacement language for ${f.id}.`,
       }));
       if (options.hallucinatedQuote !== undefined) {
@@ -79,7 +99,7 @@ export function stubModel(fixture: FixtureName, options: StubOptions = {}): Anal
           severity: "critical",
           sourceSentence: options.hallucinatedQuote,
           claim: "Invented.",
-          consequence: { low: "x", high: "y", basis: "z" },
+          consequence: { low: "x", high: "y", basis: "z", lowAmount: null, highAmount: null, currency: null },
           counterOffer: "n/a",
         });
       }
@@ -91,14 +111,14 @@ export function stubModel(fixture: FixtureName, options: StubOptions = {}): Anal
           severity: "serious",
           sourceSentence: e.sourceSentence,
           claim: `The document says: ${e.clauseType}.`,
-          consequence: { low: "Low estimate", high: "High estimate", basis: "Stub basis" },
+          consequence: { low: "Low estimate", high: "High estimate", basis: "Stub basis", ...boundFor(e.id) },
           counterOffer: `Replacement language for ${e.id}.`,
         });
       }
       return {
         summary: "Stub summary.",
         absent: options.absent ?? [],
-        fee: { ...sidecar.fee, sourceSentence: q("fee", sidecar.fee.sourceSentence) },
+        fee: options.noFee ? null : { ...sidecar.fee, sourceSentence: q("fee", sidecar.fee.sourceSentence) },
         flags,
         cleared: sidecar.cleared.filter((c) => !options.omitCleared?.includes(c.id)).map((c) => ({
           clauseType: c.clauseType,
@@ -109,3 +129,8 @@ export function stubModel(fixture: FixtureName, options: StubOptions = {}): Anal
     },
   };
 }
+
+/** A clause type that is not fixed-tier, used where a test needs a bound under the fee. */
+export const BOUNDED_ID = "non-compete";
+/** PRD §5 defines this type as Serious by construction, so no fee moves it. */
+export const FIXED_ID = "liability-cap-below-value";

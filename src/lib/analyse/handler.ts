@@ -29,7 +29,7 @@ function parseRedLines(v: unknown): RedLine[] | null {
 function parseValue(v: unknown): ContractValue | undefined | null {
   if (v === undefined || v === null) return undefined;
   const o = v as { amount?: unknown; currency?: unknown };
-  if (typeof o.amount !== "number" || !Number.isFinite(o.amount) || o.amount < 0) return null;
+  if (typeof o.amount !== "number" || !Number.isFinite(o.amount) || o.amount <= 0) return null;
   if (typeof o.currency !== "string" || o.currency.trim() === "") return null;
   return { amount: o.amount, currency: o.currency };
 }

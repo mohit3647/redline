@@ -16,5 +16,5 @@ export function orderFlags(flags: readonly Flag[]): { ranked: Flag[]; confidenti
 }
 
 function rank(f: Flag): number {
-  return f.severity === null ? 3 : RANK[f.severity];
+  return f.severity === null ? 1 : RANK[f.severity];
 }

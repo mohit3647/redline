@@ -55,11 +55,14 @@ export const ANALYSIS_JSON_SCHEMA = {
           consequence: {
             type: "object",
             additionalProperties: false,
-            required: ["low", "high", "basis"],
+            required: ["low", "high", "basis", "lowAmount", "highAmount", "currency"],
             properties: {
               low: { type: "string" },
               high: { type: "string" },
               basis: { type: "string" },
+              lowAmount: { type: ["number", "null"] },
+              highAmount: { type: ["number", "null"] },
+              currency: nullableString,
             },
           },
           counterOffer: { type: "string" },

@@ -448,6 +448,15 @@ footer { padding: 28px var(--gutter) 40px; border-top: 1px solid rgba(207, 213, 
 .cleared-item { border-left: 6px solid var(--kraft-deep); padding-left: 18px; }
 .cleared-block--lead { border-top: 4px solid var(--kraft-deep); }
 .absent-note { margin-top: 28px; padding: 14px 18px; border: 2px dashed var(--ink-soft); max-width: 62ch; }
+.stamp-label--undecided { background: var(--bond); border: 2px dashed var(--ink); }
+.tier-line { margin-top: 10px; }
+.fee-form { margin-top: 18px; max-width: 62ch; }
+.fee-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 8px; }
+.fee-row .auth-input { margin-top: 0; }
+.fee-amount { width: 12ch; }
+.fee-currency { width: 6ch; text-transform: uppercase; }
+.fee-row .auth-button { margin-top: 0; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .stamp-label--serious { background: var(--serious); border-color: var(--ink); }
 .block-label { font: 700 .8rem/1 var(--f-ui); font-stretch: 88%; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 8px; }
 .from-doc { margin: 16px 0 0; }

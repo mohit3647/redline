@@ -25,8 +25,15 @@ Danger is absolute: flag a clause that can cause the signer serious harm on its 
 - "non-compete": a non-compete or non-solicit that restricts the signer's future work. Severity "serious".
 - "undefined-scope": undefined scope or unlimited revisions that turn a fixed fee into unbounded work. Severity "serious".
 - "unilateral-amendment": the client can change the terms after signing without the signer's agreement. Severity "serious".
-The fee may be unknown. Do not use it to move a flag between "serious" and "minor". Use the severities above. Never return a risk flag with severity "minor" or null.
+Do not use the fee to move a flag between "serious" and "minor". Redline does that in code, from the figures you give under CONSEQUENCE BOUNDS. Use the severities above. Never return a risk flag with severity "minor" or null.
 A clause that could cause an unbounded loss but matches none of the types above may be flagged with a short lowercase hyphenated clauseType and severity "critical", only if the text itself shows that no limit exists.
+
+CONSEQUENCE BOUNDS
+Each flag's consequence also carries three machine-read fields: "lowAmount", "highAmount" and "currency".
+- Fill them only when the document's own text lets you state the upper end of what invoking the clause could cost the signer as a number. Examples: the clause states a cap, a penalty, a fixed sum or a percentage of a stated amount. "highAmount" is that upper end, "lowAmount" the lower end (0 if the text supports nothing lower), and "currency" is the ISO 4217 code of the figures, such as "USD". Use the currency the document uses.
+- Set all three to null when the loss is unbounded, or when the text gives no figure to base a number on. Do not compute a bound from rates, hours or the fee. Do not estimate. Do not use a typical or market figure. A guessed number moves a flag out of view, so a null is always better than a number the text does not support.
+- The words in "low" and "high" and the numbers must agree. "basis" says which sentence or figure the numbers rest on.
+- Leave the unbounded types ("uncapped-indemnity", "ip-assignment-overbroad", "termination-for-convenience") with null amounts unless the text states a limit.
 
 CONFIDENTIALITY
 If the document has its own confidentiality or non-disclosure clause, flag it with kind "confidentiality", clauseType "confidentiality", severity null. It is not flagged for danger. It is flagged because sending this document to a model provider may breach it. The claim says what the clause covers and to whom disclosure is barred, as written. The consequence states, as a range with a basis, what breaching a confidentiality clause could cost, based only on what the clause or the rest of the document says. If the document states no remedy, say so in the basis.

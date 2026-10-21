@@ -1,14 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import type { Analysis } from '../lib/analyse/types';
+import { retier } from '../lib/analyse/tier';
+import type { Analysis, ContractValue } from '../lib/analyse/types';
 import { AnalysisView, NotLegalAdvice } from './analysis-view';
 
 type State =
   | { s: 'idle' }
   | { s: 'analysing' }
   | { s: 'failed'; message: string }
-  | { s: 'ok'; analysis: Analysis };
+  | { s: 'ok'; analysis: Analysis; value?: ContractValue };
 
 export function AnalysisPanel({ text }: { text: string }) {
   const [state, setState] = useState<State>({ s: 'idle' });
@@ -33,7 +34,10 @@ export function AnalysisPanel({ text }: { text: string }) {
     <section className="intake-step" aria-labelledby="analyse-h">
       <h2 id="analyse-h" className="intake-h">Analysis</h2>
       {state.s === 'ok' ? (
-        <AnalysisView analysis={state.analysis} />
+        <AnalysisView
+          analysis={retier(state.analysis, state.value)}
+          onContractValue={(v) => setState({ ...state, value: v ?? undefined })}
+        />
       ) : (
         <>
           <NotLegalAdvice />

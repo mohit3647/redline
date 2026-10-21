@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { orderFlags } from '../lib/analyse/order';
-import type { AnchorType, Analysis, Flag } from '../lib/analyse/types';
+import { FEE_UNKNOWN_NOTE, formatMoney, parseContractValue } from '../lib/analyse/tier';
+import type { AnchorType, Analysis, ContractValue, Flag, TierBasis } from '../lib/analyse/types';
 
 const SEVERITY_LABEL = { critical: 'Critical', serious: 'Serious', minor: 'Minor' } as const;
 
@@ -50,17 +51,40 @@ function Reading({ flag }: { flag: Flag }) {
   );
 }
 
+const BASIS_TEXT: Record<Exclude<TierBasis, 'fee-unknown'>, string> = {
+  unboundedness: 'Tier set by the clause itself: it has no limit that relates to the fee.',
+  definition: 'Tier set by the clause type: a cap below the contract value is serious whatever the fee.',
+  'fee-extracted': 'Tier set against the fee the document states.',
+  'fee-supplied': 'Tier set against the contract value you entered.',
+};
+
+function TierLine({ flag }: { flag: Flag }) {
+  if (!flag.tierBasis) return null;
+  if (flag.tierBasis === 'fee-unknown') return <p className="reading-range tier-line">{FEE_UNKNOWN_NOTE}</p>;
+  return (
+    <p className="reading-range tier-line">
+      {BASIS_TEXT[flag.tierBasis]}
+      {flag.tierNote ? ` ${flag.tierNote}` : ''}
+    </p>
+  );
+}
+
 function RiskFlag({ flag, n }: { flag: Flag; n: number }) {
-  const sev = flag.severity ?? 'serious';
+  const sev = flag.severity;
   return (
     <li className="flag-item" id={`flag-${n}`}>
       <h3 className="flag-head">
         <span className="flag-no">No. {n}</span>
-        <span className={`stamp-label stamp-label--${sev}`}>{SEVERITY_LABEL[sev]}</span>
+        {sev ? (
+          <span className={`stamp-label stamp-label--${sev}`}>{SEVERITY_LABEL[sev]}</span>
+        ) : (
+          <span className="stamp-label stamp-label--undecided">Serious or minor</span>
+        )}
         <span className="flag-type">{flag.clauseType.replace(/-/g, ' ')}</span>
       </h3>
       <Quotation text={flag.sourceSentence} />
       <Reading flag={flag} />
+      <TierLine flag={flag} />
       <div className="counter">
         <p className="block-label">Ask for instead</p>
         <p className="counter-text">{flag.counterOffer}</p>
@@ -117,7 +141,117 @@ function ClearedList({ analysis }: { analysis: Analysis }) {
   );
 }
 
-export function AnalysisView({ analysis }: { analysis: Analysis }) {
+function FeeForm({ analysis, onContractValue }: { analysis: Analysis; onContractValue: (v: ContractValue | null) => void }) {
+  const current = analysis.fee.state === 'unknown' ? undefined : analysis.fee;
+  const [amount, setAmount] = useState(analysis.fee.state === 'supplied' ? String(analysis.fee.amount) : '');
+  const [currency, setCurrency] = useState(current?.currency ?? 'USD');
+  const [error, setError] = useState('');
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const parsed = parseContractValue(amount, currency);
+    if (!parsed.ok) {
+      setError(parsed.message);
+      return;
+    }
+    setError('');
+    onContractValue(parsed.value);
+  }
+
+  return (
+    <form className="fee-form" onSubmit={submit} noValidate>
+      <label className="auth-label" htmlFor="fee-amount">
+        {analysis.fee.state === 'unknown' ? 'Contract value' : 'Change the contract value'}
+      </label>
+      <div className="fee-row">
+        <input
+          id="fee-amount"
+          className="auth-input fee-amount"
+          inputMode="decimal"
+          autoComplete="off"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? 'fee-error' : undefined}
+        />
+        <label className="visually-hidden" htmlFor="fee-currency">Currency code</label>
+        <input
+          id="fee-currency"
+          className="auth-input fee-currency"
+          maxLength={3}
+          autoComplete="off"
+          value={currency}
+          onChange={(e) => setCurrency(e.target.value)}
+          aria-invalid={error ? true : undefined}
+        />
+        <button type="submit" className="auth-button">Re-tier with this value</button>
+        {analysis.fee.state === 'supplied' ? (
+          <button
+            type="button"
+            className="copy-button"
+            onClick={() => {
+              setAmount('');
+              setError('');
+              onContractValue(null);
+            }}
+          >
+            Remove my value
+          </button>
+        ) : null}
+      </div>
+      {error ? <p id="fee-error" className="auth-error" role="alert">{error}</p> : null}
+    </form>
+  );
+}
+
+function FeePanel({ analysis, onContractValue }: { analysis: Analysis; onContractValue?: (v: ContractValue | null) => void }) {
+  const { fee, extractedFee } = analysis;
+  return (
+    <section aria-labelledby="fee-h" className="result-block fee-block">
+      <h2 id="fee-h" className="intake-h">The fee behind the tiers</h2>
+      {fee.state === 'extracted' ? (
+        <>
+          <p className="auth-body">
+            <span className="stamp-label stamp-label--cleared">From the document</span>{' '}
+            Fee: {formatMoney(fee.amount, fee.currency)}. Serious and Minor are split against it.
+          </p>
+          <Quotation text={fee.sourceSentence} />
+        </>
+      ) : null}
+      {fee.state === 'supplied' ? (
+        <>
+          <p className="auth-body">
+            <span className="stamp-label stamp-label--cleared">Entered by you</span>{' '}
+            Contract value: {formatMoney(fee.amount, fee.currency)}. Serious and Minor are split against it.
+          </p>
+          {extractedFee ? (
+            <>
+              <p className="reading-range">
+                The document states a fee of {formatMoney(extractedFee.amount, extractedFee.currency)}. Your value is used instead.
+              </p>
+              <Quotation text={extractedFee.sourceSentence} />
+            </>
+          ) : null}
+        </>
+      ) : null}
+      {fee.state === 'unknown' ? (
+        <p className="auth-body">
+          <span className="stamp-label stamp-label--undecided">Fee unknown</span> {FEE_UNKNOWN_NOTE}
+        </p>
+      ) : null}
+      {onContractValue ? <FeeForm key={`${fee.state}-${'amount' in fee ? fee.amount : 0}`} analysis={analysis} onContractValue={onContractValue} /> : null}
+    </section>
+  );
+}
+
+export function AnalysisView({
+  analysis,
+  onContractValue,
+}: {
+  analysis: Analysis;
+  /** Called with the signer's value, or null to remove it. The parent re-tiers locally. */
+  onContractValue?: (v: ContractValue | null) => void;
+}) {
   const { ranked, confidentiality } = orderFlags(analysis.flags);
   const dropped = analysis.dropped.filter((d) => d.kind !== 'payload' && d.kind !== 'absent').length;
   return (
@@ -127,6 +261,8 @@ export function AnalysisView({ analysis }: { analysis: Analysis }) {
         <h2 id="sum-h" className="intake-h">What this agreement does</h2>
         {analysis.summary ? <p className="auth-body">{analysis.summary}</p> : null}
       </section>
+
+      <FeePanel analysis={analysis} onContractValue={onContractValue} />
 
       {dropped > 0 ? (
         <p className="intake-note" role="status">

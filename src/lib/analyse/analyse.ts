@@ -1,3 +1,4 @@
+import { ANCHOR_WORDS, retier } from "./tier";
 import { ANCHOR_TYPES } from "./types";
 import type {
   AnchorType,
@@ -6,8 +7,9 @@ import type {
   AnalysisModel,
   Cleared,
   ContractValue,
+  Consequence,
   Dropped,
-  Fee,
+  ExtractedFee,
   Flag,
   RedLine,
   Severity,
@@ -34,13 +36,6 @@ function clearedOnlyNote(clauseType: string): string | undefined {
   return CLEARED_ONLY_NOTES[CLEARED_ONLY_ALIASES[key] ?? key];
 }
 
-/** Word tests on a clause type's hyphen-separated words: a match shows the document has a clause on that topic. */
-const ANCHOR_WORDS: Record<AnchorType, (word: string) => boolean> = {
-  "uncapped-indemnity": (w) => w.startsWith("indemn"),
-  "ip-assignment": (w) => w === "ip",
-  "termination-for-convenience": (w) => w.startsWith("terminat"),
-};
-
 const SEVERITIES: readonly string[] = ["critical", "serious", "minor"];
 
 type Obj = Record<string, unknown>;
@@ -63,6 +58,23 @@ type QuoteCheck = { ok: true } | { ok: false; reason: "empty-quote" | "not-verba
 function checkQuote(documentText: string, quote: string): QuoteCheck {
   if (quote.trim().length === 0) return { ok: false, reason: "empty-quote" };
   return documentText.includes(quote) ? { ok: true } : { ok: false, reason: "not-verbatim" };
+}
+
+const NO_BOUNDS = { lowAmount: null, highAmount: null, currency: null } as const;
+
+/**
+ * The numeric ends of a consequence range. A figure the model could not state is null, and so is
+ * anything unusable: a negative or non-numeric value, a missing currency, or a low above the high.
+ * Unusable means unknown. It is never repaired.
+ */
+function parseBounds(c: Obj): Pick<Consequence, "lowAmount" | "highAmount" | "currency"> {
+  const num = (v: unknown) => (typeof v === "number" && Number.isFinite(v) && v >= 0 ? v : null);
+  const lowAmount = num(c.lowAmount);
+  const highAmount = num(c.highAmount);
+  const currency = nonEmpty(c.currency)?.trim().toUpperCase() ?? null;
+  if (highAmount === null || currency === null) return { ...NO_BOUNDS };
+  if (lowAmount !== null && lowAmount > highAmount) return { ...NO_BOUNDS };
+  return { lowAmount, highAmount, currency };
 }
 
 function parseFlag(raw: unknown): Flag | string {
@@ -92,7 +104,7 @@ function parseFlag(raw: unknown): Flag | string {
     severity,
     sourceSentence: raw.sourceSentence,
     claim,
-    consequence: { low: str(c.low)!, high: str(c.high)!, basis: str(c.basis)! },
+    consequence: { low: str(c.low)!, high: str(c.high)!, basis: str(c.basis)!, ...parseBounds(c) },
     counterOffer,
   };
   if (raw.triggeredByRedLine !== undefined && raw.triggeredByRedLine !== null) {
@@ -118,7 +130,7 @@ function parseCleared(raw: unknown): Cleared | string {
 
 function parseFee(raw: unknown): { amount: number; currency: string; sourceSentence: string } | string {
   if (!isObj(raw)) return "fee is not an object";
-  if (typeof raw.amount !== "number" || !Number.isFinite(raw.amount) || raw.amount < 0) return "fee amount must be a non-negative number";
+  if (typeof raw.amount !== "number" || !Number.isFinite(raw.amount) || raw.amount <= 0) return "fee amount must be a number above zero";
   const currency = nonEmpty(raw.currency);
   if (!currency) return "fee currency missing";
   if (typeof raw.sourceSentence !== "string") return "fee sourceSentence missing";
@@ -142,12 +154,11 @@ export async function analyse(
 
   const raw = await model.analyse({ documentText, redLines, contractValue });
 
-  const result: Analysis = { summary: "", fee: { state: "unknown" }, flags: [], cleared: [], absent: [], reclassified: [], dropped };
+  const result: Analysis = { summary: "", fee: { state: "unknown" }, flags: [], cleared: [], absent: [], reclassified: [], dropped, demoted: [], order: [] };
 
   if (!isObj(raw)) {
     drop({ kind: "payload", reason: "malformed", detail: "model payload is not an object" });
-    if (contractValue) result.fee = { state: "supplied", ...contractValue };
-    return result;
+    return retier(result, contractValue);
   }
 
   result.summary = str(raw.summary) ?? "";
@@ -196,6 +207,7 @@ export async function analyse(
       continue;
     }
     result.flags.push(parsed);
+    result.order.push(parsed.id);
   }
 
   // Cleared
@@ -248,19 +260,20 @@ export async function analyse(
     if (!result.absent.includes(anchor)) result.absent.push(anchor);
   }
 
-  // Fee (ADR 0006): a supplied value wins; the model's fee is only used when none is supplied.
-  if (contractValue) {
-    result.fee = { state: "supplied", amount: contractValue.amount, currency: contractValue.currency };
-  } else if (raw.fee !== undefined && raw.fee !== null) {
+  // Fee (ADR 0006): the model's fee is verified like a flag and kept whatever the tiering uses.
+  // A supplied value overrides it only because the signer entered it; the extracted fee stays visible.
+  if (raw.fee !== undefined && raw.fee !== null) {
     const parsed = parseFee(raw.fee);
     if (typeof parsed === "string") {
-      drop({ kind: "fee", reason: "malformed", sourceSentence: isObj(raw.fee) ? str(raw.fee.sourceSentence) : undefined, detail: parsed });
+      if (!contractValue) {
+        drop({ kind: "fee", reason: "malformed", sourceSentence: isObj(raw.fee) ? str(raw.fee.sourceSentence) : undefined, detail: parsed });
+      }
     } else {
       const check = checkQuote(documentText, parsed.sourceSentence);
       if (check.ok) {
-        const fee: Fee = { state: "extracted", ...parsed };
-        result.fee = fee;
-      } else {
+        const extracted: ExtractedFee = parsed;
+        result.extractedFee = extracted;
+      } else if (!contractValue) {
         drop({
           kind: "fee",
           reason: check.reason,
@@ -271,5 +284,5 @@ export async function analyse(
     }
   }
 
-  return result;
+  return retier(result, contractValue);
 }
