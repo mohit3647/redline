@@ -21,6 +21,7 @@ export default function Home() {
               <p className="peek-sent"><span className="m m-critical" data-quote="">The Contractor shall indemnify and hold harmless the Client against any and all claims, losses, damages and legal fees arising from or relating to the Services.</span></p>
               <svg className="peek-string" viewBox="0 0 60 36" width="60" height="36"><path d="M44 0 C44 18, 17 14, 17 36" className="under"/><path d="M44 0 C44 18, 17 14, 17 36" className="over"/><circle cx="44" cy="3" r="4.5" className="grommet"/></svg>
               <span className="tag-hang"><span className="tag tag--critical"><span className="tag-top"><span className="tag-no">No. 1</span><span className="stamp">Critical</span></span><span className="tag-claim">You cover all of the client's losses and legal fees from the work, and the clause sets no limit.</span></span></span>
+              <p className="peek-note"><b>Sample.</b> An illustration of the layout, not output from Redline's analysis.</p>
             </div>
             <p className="lede">Upload a client agreement before you sign it. Redline ranks the clauses that could cost you, quotes the exact sentence behind each one, and drafts the change to ask your client for.</p>
             <div className="cta-row">
@@ -29,7 +30,7 @@ export default function Home() {
               </a>
             </div>
             <ul className="scope">
-              <li>For freelance client agreements you haven't signed yet</li>
+              <li>For freelancers with a client agreement they haven't signed yet</li>
               <li>Documents with selectable text, not scans or photos</li>
               <li>Not legal advice, and no verdict on whether to sign</li>
             </ul>
@@ -42,7 +43,7 @@ export default function Home() {
             <article className="sheet" aria-labelledby="sample-title" id="sample">
               <div className="sheet-head">
                 <span className="stamp">Sample</span>
-                <p>Written for this page to show how Redline reads an agreement. It is not a real client's contract, and the analysis beside it is a demonstration.</p>
+                <p>This agreement was written for this page. It is not a real client's contract. The flags beside it illustrate the layout and have not yet been captured from Redline's analysis.</p>
               </div>
               <h2 id="sample-title">Design Services Agreement</h2>
               <p className="parties">Between the Client and the Contractor</p>
@@ -83,6 +84,7 @@ export default function Home() {
           <div className="sec-head">
             <h2 id="ranked-title">Ranked by what each could cost you</h2>
             <p>Severity is expected cost: how likely a clause is to be used against you, times what it costs when it is. Critical tags carry two punched holes and Serious tags one, so the rank reads without colour.</p>
+            <p className="sample-line"><span className="stamp">Sample</span> These flags and counter-offers illustrate the layout. They have not yet been captured from Redline's analysis.</p>
           </div>
           <div className="flags-wrap" data-ties>
           <svg className="strings ties" aria-hidden="true" focusable="false"></svg>
@@ -140,6 +142,7 @@ export default function Home() {
           <div className="sec-head">
             <h2 id="cleared-title">It shows what it checked and cleared</h2>
             <p>A clean result is a list of what was read, each with the sentence behind it. You never get a blank screen you can't tell apart from a failed upload.</p>
+            <p className="sample-line"><span className="stamp">Sample</span> This list illustrates the layout. It has not yet been captured from Redline's analysis.</p>
           </div>
           <div className="wire">
             <ul className="cleared">
@@ -173,8 +176,8 @@ export default function Home() {
               <div className="tag tag--notice">
                 <span className="tag-top"><span className="stamp">Before upload</span></span>
                 <ul>
-                  <li>Your file is read in your browser. Redline keeps the text, never the file.</li>
-                  <li>The text is sent to an AI model provider to be analysed.</li>
+                  <li>The text of your agreement is sent to a third-party model provider to be analysed, through OpenRouter on zero-data-retention routes. It leaves your browser.</li>
+                  <li>Your file is opened in your browser. Redline stores the text it extracts and never the file.</li>
                   <li>If the agreement bars sharing its terms, that clause is flagged first.</li>
                 </ul>
               </div>
@@ -223,7 +226,10 @@ export default function Home() {
 
       <footer>
         <span>Redline</span>
-        <span>The sample agreement on this page was written to demonstrate Redline. It is not a real client's contract.</span>
+        <span>The sample agreement on this page was written for it. It is not a real client's contract, and the flags shown are an illustration, not yet captured from Redline's analysis.</span>
+        {/* Ticket 15 (human): replace this line with links to the privacy policy and terms once they exist.
+            ADR 0007: the page is not made public without them. No legal text is written here. */}
+        <span>Privacy policy and terms of service: not yet published.</span>
       </footer>
       <LandingBehaviour />
     </>

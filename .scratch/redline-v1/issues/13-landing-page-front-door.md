@@ -1,6 +1,6 @@
 # 13 — Landing page: the front door
 
-Status: ready-for-agent
+Status: done-except-policy-links (blocked by 15)
 Blocked by: 01
 
 **What to build:** a signed-out visitor arrives at Redline's root URL and
