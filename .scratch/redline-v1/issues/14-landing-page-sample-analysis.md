@@ -1,6 +1,6 @@
 # 14 — Landing page: sample analysis
 
-Status: ready-for-agent
+Status: blocked (needs lawyer-labelled benchmark, human review of sample, working model key)
 Blocked by: 13, 04, 05, 06, 07, 08, 09; `.scratch/pre-build-validation/` issue 03 (the benchmark lawyer)
 
 **What to build:** on the landing page, a visitor sees one sample freelance
