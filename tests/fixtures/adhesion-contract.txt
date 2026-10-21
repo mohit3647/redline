@@ -1,0 +1,140 @@
+INDEPENDENT CONTRACTOR SERVICES AGREEMENT
+
+This Independent Contractor Services Agreement (the "Agreement") is entered into as of March 3, 2026 (the "Effective Date") between Halvorsen Brightwater Holdings, Inc., a Delaware corporation with its principal office at 410 Larkspur Avenue, Wilmington, Delaware ("Client"), and Mara Oyelaran-Quinn, an individual residing in Portland, Oregon ("Contractor").
+
+1. Services
+
+1.1 Contractor will provide web design and front-end development services to Client for its customer portal redesign, as further described in this Agreement (the "Services").
+
+1.2 Contractor will perform the Services in a professional and workmanlike manner and will devote the time reasonably necessary to complete them.
+
+1.3 Contractor will make all revisions that Client requests to the Deliverables, at any time and in any quantity, until Client is fully satisfied.
+
+1.4 Client may add to or change the scope of the Services from time to time by email, and Contractor will complete any such additions within the Fee stated in Section 3.
+
+1.5 Contractor is an independent contractor and not an employee, partner, or agent of Client. Contractor is responsible for her own taxes, insurance, equipment, and working hours.
+
+2. Term
+
+2.1 This Agreement begins on the Effective Date and continues until the Services are complete, unless ended earlier under this Agreement.
+
+2.2 Either party may notify the other of a delay in writing, and the parties will work in good faith to agree a revised schedule.
+
+2.3 Client may terminate this Agreement for any reason or no reason upon one day of written notice, and Contractor will not be entitled to any termination fee, kill fee, or payment for work in progress.
+
+2.4 Contractor may terminate this Agreement only for Client's uncured material breach, following sixty days of written notice and an opportunity to cure.
+
+3. Fees and Payment
+
+3.1 Client will pay Contractor a fixed fee of $24,000 for the Services (the "Fee").
+
+3.2 Contractor will submit a single invoice upon completion of the Services, and Client will pay each approved invoice within ninety (90) days of the date Client receives it, with no interest or late charge accruing on any unpaid amount.
+
+3.3 Invoices must be sent to accounts@halvorsenbrightwater.example and must include the project name and purchase order number.
+
+3.4 Each party bears its own costs and expenses in connection with this Agreement unless the parties agree otherwise in writing.
+
+3.5 Client may withhold applicable taxes where required by law, and Contractor will provide a completed tax form on request.
+
+4. Intellectual Property
+
+4.1 Contractor assigns to Client all right, title, and interest in all work product, tools, code libraries, templates, and other materials that Contractor creates, conceives, or owns during the term of this Agreement or before it, whether or not related to the Services and whether or not created using Client's resources.
+
+4.2 Client will own the Deliverables and all related intellectual property rights upon creation.
+
+4.3 Contractor will sign any documents Client reasonably requests to confirm the assignment of rights described in this Section.
+
+4.4 Contractor represents that the Deliverables will be her original work, to the extent they are not based on materials supplied by Client.
+
+5. Confidentiality
+
+5.1 Contractor will hold in strict confidence all non-public information disclosed by Client or learned in the course of the Services, and will not disclose any such information, or the existence and terms of this Agreement, to any third party without Client's prior written consent.
+
+5.2 The obligations in this Section survive for five years after this Agreement ends.
+
+5.3 Confidential information does not include information that is or becomes public through no fault of Contractor.
+
+6. Restrictive Covenants
+
+6.1 For a period of two years after this Agreement ends, Contractor will not provide design or development services to any business that competes with Client or to any customer of Client anywhere in the world.
+
+6.2 For the same period, Contractor will not solicit or hire any employee or contractor of Client, and will not solicit any customer of Client for any purpose.
+
+6.3 Contractor acknowledges that these restrictions are reasonable and that Client may seek an injunction to enforce them.
+
+7. Indemnification
+
+7.1 Contractor will indemnify, defend, and hold harmless Client and its affiliates, officers, and employees from and against any and all claims, losses, damages, liabilities, and expenses of any kind, including attorneys' fees, arising out of or relating to the Services, without limit as to amount.
+
+7.2 Client will give Contractor prompt notice of any claim for which it seeks indemnification.
+
+7.3 Contractor will cooperate reasonably with Client in the defense of any such claim.
+
+8. Limitation of Liability
+
+8.1 Client's total liability to Contractor arising out of or relating to this Agreement will not exceed $2,000 in the aggregate.
+
+8.2 Neither party will be liable for indirect or consequential damages except as stated in Section 7.
+
+8.3 Nothing in this Agreement limits liability that cannot be limited by law.
+
+9. Changes to this Agreement
+
+9.1 Client may amend any term of this Agreement at any time by posting the revised terms on its website or sending notice to Contractor, and the amended terms take effect immediately.
+
+9.2 Contractor's continued performance of the Services after an amendment constitutes acceptance of it.
+
+9.3 Client will make reasonable efforts to keep the posted terms available for review.
+
+10. Dispute Resolution
+
+10.1 Any dispute arising out of or relating to this Agreement will be resolved exclusively by binding arbitration administered by an arbitrator chosen by Client in Wilmington, Delaware, and Contractor waives any right to bring or join a class action or to a jury trial.
+
+10.2 The arbitrator may award any relief that a court could award, other than relief barred by this Agreement.
+
+10.3 Each party will keep the arbitration proceedings private to the extent the law allows.
+
+11. General Provisions
+
+11.1 This Agreement is governed by the laws of the State of Delaware, without regard to its conflict of laws rules.
+
+11.2 This Agreement is the entire agreement between the parties on its subject and replaces all earlier discussions and understandings.
+
+11.3 If any provision of this Agreement is held unenforceable, the remaining provisions will continue in full force and effect.
+
+11.4 Notices under this Agreement must be in writing and delivered by email or by courier to the addresses stated at the top of this Agreement.
+
+11.5 Contractor may not assign this Agreement without Client's written consent, but Client may assign it to any successor or affiliate.
+
+11.6 The failure of either party to enforce any provision of this Agreement is not a waiver of that provision or of the right to enforce it later.
+
+11.7 Contractor will comply with all laws that apply to the Services, and Client will provide reasonable access to the information and personnel Contractor needs to perform them.
+
+11.8 The headings in this Agreement are for convenience only and do not affect its interpretation.
+
+11.9 This Agreement may be signed in counterparts, including by electronic signature, each of which is an original and all of which together are one document.
+
+12. Acceptance and Delivery
+
+12.1 Contractor will deliver the finished design files, source code, and related documentation (the "Deliverables") to Client through a shared repository that Client designates.
+
+12.2 Client will review the Deliverables and tell Contractor whether they are accepted, and Contractor will remain available by email during normal business hours in the Pacific time zone while Client reviews them.
+
+12.3 Contractor will keep records of the time she spends on the Services and will provide a summary on request, although the Fee is not calculated by reference to hours.
+
+12.4 Client may identify Contractor as a vendor in its internal records and in communications with its auditors and insurers.
+
+12.5 Each party will designate a primary contact for day-to-day communication about the Services and may replace that contact by notifying the other by email.
+
+12.6 Contractor will notify Client promptly if she becomes aware of any circumstance that is likely to delay delivery of the Deliverables by more than five business days.
+
+IN WITNESS WHEREOF, the parties have signed this Agreement as of the Effective Date.
+
+HALVORSEN BRIGHTWATER HOLDINGS, INC.
+By: ______________________
+Name: Desmond Halvorsen
+Title: Chief Operating Officer
+
+CONTRACTOR
+Signature: ______________________
+Name: Mara Oyelaran-Quinn

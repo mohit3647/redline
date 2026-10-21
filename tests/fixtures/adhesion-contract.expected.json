@@ -1,0 +1,81 @@
+{
+  "fee": {
+    "amount": 24000,
+    "currency": "USD",
+    "sourceSentence": "Client will pay Contractor a fixed fee of $24,000 for the Services (the \"Fee\")."
+  },
+  "flags": [
+    {
+      "id": "uncapped-indemnity",
+      "clauseType": "uncapped-indemnity",
+      "kind": "risk",
+      "expectedSeverityBand": "critical",
+      "sourceSentence": "Contractor will indemnify, defend, and hold harmless Client and its affiliates, officers, and employees from and against any and all claims, losses, damages, liabilities, and expenses of any kind, including attorneys' fees, arising out of or relating to the Services, without limit as to amount."
+    },
+    {
+      "id": "ip-assignment-overbroad",
+      "clauseType": "ip-assignment-overbroad",
+      "kind": "risk",
+      "expectedSeverityBand": "critical",
+      "sourceSentence": "Contractor assigns to Client all right, title, and interest in all work product, tools, code libraries, templates, and other materials that Contractor creates, conceives, or owns during the term of this Agreement or before it, whether or not related to the Services and whether or not created using Client's resources."
+    },
+    {
+      "id": "termination-for-convenience",
+      "clauseType": "termination-for-convenience",
+      "kind": "risk",
+      "expectedSeverityBand": "serious",
+      "sourceSentence": "Client may terminate this Agreement for any reason or no reason upon one day of written notice, and Contractor will not be entitled to any termination fee, kill fee, or payment for work in progress."
+    },
+    {
+      "id": "liability-cap-below-value",
+      "clauseType": "liability-cap-below-value",
+      "kind": "risk",
+      "expectedSeverityBand": "serious",
+      "sourceSentence": "Client's total liability to Contractor arising out of or relating to this Agreement will not exceed $2,000 in the aggregate."
+    },
+    {
+      "id": "non-compete",
+      "clauseType": "non-compete",
+      "kind": "risk",
+      "expectedSeverityBand": "serious",
+      "sourceSentence": "For a period of two years after this Agreement ends, Contractor will not provide design or development services to any business that competes with Client or to any customer of Client anywhere in the world."
+    },
+    {
+      "id": "unlimited-revisions",
+      "clauseType": "undefined-scope",
+      "kind": "risk",
+      "expectedSeverityBand": "serious",
+      "sourceSentence": "Contractor will make all revisions that Client requests to the Deliverables, at any time and in any quantity, until Client is fully satisfied."
+    },
+    {
+      "id": "unilateral-amendment",
+      "clauseType": "unilateral-amendment",
+      "kind": "risk",
+      "expectedSeverityBand": "serious",
+      "sourceSentence": "Client may amend any term of this Agreement at any time by posting the revised terms on its website or sending notice to Contractor, and the amended terms take effect immediately."
+    },
+    {
+      "id": "confidentiality",
+      "clauseType": "confidentiality",
+      "kind": "confidentiality",
+      "expectedSeverityBand": null,
+      "sourceSentence": "Contractor will hold in strict confidence all non-public information disclosed by Client or learned in the course of the Services, and will not disclose any such information, or the existence and terms of this Agreement, to any third party without Client's prior written consent."
+    }
+  ],
+  "cleared": [
+    {
+      "id": "payment-net-90",
+      "clauseType": "payment-terms",
+      "expectedSeverityBand": "minor",
+      "finding": "Payment is due 90 days after the invoice is received, and no interest or late charge applies to late payment.",
+      "sourceSentence": "Contractor will submit a single invoice upon completion of the Services, and Client will pay each approved invoice within ninety (90) days of the date Client receives it, with no interest or late charge accruing on any unpaid amount."
+    },
+    {
+      "id": "mandatory-arbitration",
+      "clauseType": "arbitration",
+      "expectedSeverityBand": "minor",
+      "finding": "Disputes go to binding arbitration before an arbitrator chosen by Client, with a class-action and jury-trial waiver.",
+      "sourceSentence": "Any dispute arising out of or relating to this Agreement will be resolved exclusively by binding arbitration administered by an arbitrator chosen by Client in Wilmington, Delaware, and Contractor waives any right to bring or join a class action or to a jury trial."
+    }
+  ]
+}

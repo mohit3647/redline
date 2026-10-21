@@ -1,0 +1,59 @@
+{
+  "fee": {
+    "amount": 9600,
+    "currency": "USD",
+    "sourceSentence": "Client will pay Contractor a fixed fee of $9,600 for the Deliverables (the \"Fee\")."
+  },
+  "flags": [],
+  "cleared": [
+    {
+      "id": "indemnity",
+      "clauseType": "indemnity",
+      "expectedSeverityBand": "minor",
+      "finding": "Indemnity is mutual, limited to third-party claims from the indemnifying party's own breach, and capped at the fees paid or payable.",
+      "sourceSentence": "Each party will indemnify the other against third-party claims arising from its own breach of this Agreement, and the indemnifying party's total liability under this Section will not exceed the Fees paid or payable under this Agreement."
+    },
+    {
+      "id": "ip-assignment",
+      "clauseType": "ip-assignment",
+      "expectedSeverityBand": "minor",
+      "finding": "Only the deliverables created specifically for Client are assigned, and only on payment of the fee in full.",
+      "sourceSentence": "Upon Client's payment of the Fee in full, Contractor assigns to Client all rights in the Deliverables that are created specifically for Client under this Agreement."
+    },
+    {
+      "id": "termination",
+      "clauseType": "termination",
+      "expectedSeverityBand": "minor",
+      "finding": "Either party may terminate for convenience on fourteen days notice; if Client does, it pays for work performed plus a kill fee of 20 percent of the unpaid balance.",
+      "sourceSentence": "If Client terminates for convenience, Client will pay Contractor for all work performed through the termination date, plus a kill fee equal to 20 percent of the unpaid balance of the Fee."
+    },
+    {
+      "id": "liability-cap",
+      "clauseType": "liability-cap",
+      "expectedSeverityBand": "minor",
+      "finding": "Each party's total liability is capped at the fees paid or payable, so the cap applies equally to both sides.",
+      "sourceSentence": "Each party's total liability to the other arising out of this Agreement, under any theory, will not exceed the Fees paid or payable under this Agreement."
+    },
+    {
+      "id": "scope",
+      "clauseType": "scope",
+      "expectedSeverityBand": "minor",
+      "finding": "Scope is limited to the listed deliverables, and added work needs a signed written change order stating the added fee and schedule.",
+      "sourceSentence": "The Deliverables are limited to the items listed in Section 1.1, and any additional work requires a written change order signed by both parties that states the added fee and schedule."
+    },
+    {
+      "id": "amendment",
+      "clauseType": "amendment",
+      "expectedSeverityBand": "minor",
+      "finding": "The agreement can be amended only in a writing signed by both parties.",
+      "sourceSentence": "This Agreement may be amended only in a writing signed by both parties."
+    },
+    {
+      "id": "payment-net-30",
+      "clauseType": "payment-terms",
+      "expectedSeverityBand": "minor",
+      "finding": "Payment is due 30 days after receipt of each invoice, and unpaid amounts accrue late interest (1.5 percent per month in the next clause).",
+      "sourceSentence": "Contractor will invoice 50 percent of the Fee on signing and 50 percent on delivery of the final files, and Client will pay each invoice within thirty (30) days of receipt."
+    }
+  ]
+}
