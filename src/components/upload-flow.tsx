@@ -16,7 +16,7 @@ import {
 export const PENDING_DOCUMENT_KEY = 'redline.pendingDocument';
 
 type Extracted = { title: string; text: string };
-type Kept = { where: 'library' | 'tab'; note: string };
+type Kept = { where: 'library' | 'tab'; note: string; documentId?: string };
 
 function titleFrom(filename: string): string {
   return filename.replace(/\.[^.]+$/, '').trim() || 'Untitled agreement';
@@ -68,7 +68,7 @@ export function UploadFlow({ configured }: { configured: boolean }) {
     const saved = await saveDocument(extracted.title, extracted.text);
     setBusy(false);
     if (saved.status === 'saved') {
-      setKept({ where: 'library', note: 'Saved to your library. Only the text was stored, never the file.' });
+      setKept({ where: 'library', documentId: saved.id, note: 'Saved to your library. Only the text was stored, never the file.' });
     } else if (saved.status === 'error') {
       setError(saved.message);
     } else if (saved.status === 'signed-out') {
@@ -196,7 +196,7 @@ export function UploadFlow({ configured }: { configured: boolean }) {
         </section>
       ) : null}
 
-      {extracted && kept ? <AnalysisPanel text={extracted.text} /> : null}
+      {extracted && kept ? <AnalysisPanel text={extracted.text} documentId={kept.documentId} /> : null}
     </div>
   );
 }

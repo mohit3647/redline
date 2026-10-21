@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 const LINKS = [
   { href: '/app', label: 'Home' },
   { href: '/app/new', label: 'New agreement' },
+  { href: '/app/library', label: 'Library' },
   { href: '/app/red-lines', label: 'Red lines' },
 ];
 
@@ -15,7 +16,7 @@ export function ShellNav() {
       <ul>
         {LINKS.map((l) => (
           <li key={l.href}>
-            <a href={l.href} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a>
+            <a href={l.href} aria-current={path === l.href || (l.href !== '/app' && path?.startsWith(l.href + '/')) ? 'page' : undefined}>{l.label}</a>
           </li>
         ))}
       </ul>

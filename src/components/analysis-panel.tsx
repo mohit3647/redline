@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { retier } from '../lib/analyse/tier';
 import type { Analysis, ContractValue } from '../lib/analyse/types';
+import { saveAnalysis } from '../lib/library/actions';
 import { listRedLines } from '../lib/red-lines/actions';
 import { readSessionRedLines } from '../lib/red-lines/session-store';
 import { AnalysisView, NotLegalAdvice } from './analysis-view';
@@ -42,8 +43,19 @@ export function AppliedRedLines({ texts, note }: { texts: string[]; note: string
   );
 }
 
-export function AnalysisPanel({ text }: { text: string }) {
+type SaveNote = { kind: 'none' } | { kind: 'saved' } | { kind: 'not-saved'; message: string };
+
+/** Says what happened to the library copy, so a failed save is never silent. */
+function saveNote(r: Awaited<ReturnType<typeof saveAnalysis>>): SaveNote {
+  if (r.status === 'saved') return { kind: 'saved' };
+  if (r.status === 'refused' || r.status === 'error') return { kind: 'not-saved', message: r.message };
+  if (r.status === 'signed-out') return { kind: 'not-saved', message: 'You are signed out, so this analysis was not saved to your library.' };
+  return { kind: 'none' };
+}
+
+export function AnalysisPanel({ text, documentId }: { text: string; documentId?: string }) {
   const [state, setState] = useState<State>({ s: 'idle' });
+  const [note, setNote] = useState<SaveNote>({ kind: 'none' });
   const [applied, setApplied] = useState<{ texts: string[]; note: string | null }>({ texts: [], note: null });
 
   // Show what would be applied before the first run, so the signer sees it ahead of the click.
@@ -65,8 +77,11 @@ export function AnalysisPanel({ text }: { text: string }) {
         body: JSON.stringify({ text, redLines: rl.texts.map((t) => ({ text: t })) }),
       });
       const body = (await res.json()) as { status?: string; message?: string; analysis?: Analysis };
-      if (res.ok && body.status === 'ok' && body.analysis) setState({ s: 'ok', analysis: body.analysis });
-      else setState({ s: 'failed', message: body.message ?? 'The analysis failed. Nothing was analysed.' });
+      if (res.ok && body.status === 'ok' && body.analysis) {
+        setState({ s: 'ok', analysis: body.analysis });
+        setNote({ kind: 'none' });
+        if (documentId) void saveAnalysis(documentId, body.analysis).then((r) => setNote(saveNote(r)));
+      } else setState({ s: 'failed', message: body.message ?? 'The analysis failed. Nothing was analysed.' });
     } catch {
       setState({ s: 'failed', message: 'Redline could not reach the analysis service. Nothing was analysed.' });
     }
@@ -79,9 +94,14 @@ export function AnalysisPanel({ text }: { text: string }) {
         <>
           <AppliedRedLines texts={applied.texts} note={applied.note} />
           <button type="button" className="intake-secondary" onClick={() => void run()}>Re-run with my red lines</button>
+          {note.kind === 'saved' ? <p className="intake-done" role="status">Saved to your library.</p> : null}
+          {note.kind === 'not-saved' ? <p className="auth-error" role="alert">{note.message}</p> : null}
           <AnalysisView
             analysis={retier(state.analysis, state.value)}
-            onContractValue={(v) => setState({ ...state, value: v ?? undefined })}
+            onContractValue={(v) => {
+              setState({ ...state, value: v ?? undefined });
+              if (documentId) void saveAnalysis(documentId, state.analysis, v ?? undefined).then((r) => setNote(saveNote(r)));
+            }}
           />
           <QuestionBox text={text} />
         </>

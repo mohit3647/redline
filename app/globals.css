@@ -491,3 +491,8 @@ footer { padding: 28px var(--gutter) 40px; border-top: 1px solid rgba(207, 213, 
 .question-box textarea.auth-input { width: 100%; max-width: 62ch; resize: vertical; font: 400 1rem/1.5 var(--f-ui); }
 .question-box .auth-button { margin-top: 14px; }
 .answer-region { margin-top: 20px; }
+
+.library-list { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
+.library-item { display: grid; gap: 4px; padding: 14px 16px; border: 1px solid var(--rule, #cdd1e2); border-left: 4px solid var(--field); background: var(--paper); }
+.library-title { font-weight: 700; font-size: 1.1rem; color: var(--ink); text-underline-offset: 3px; }
+.library-meta { color: var(--ink); font-size: .95rem; }
