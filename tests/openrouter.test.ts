@@ -75,7 +75,7 @@ describe("schema stays in step with the seam", () => {
     for (const k of ["id", "kind", "clauseType", "severity", "sourceSentence", "claim", "consequence", "counterOffer"]) {
       expect(flag.required).toContain(k);
     }
-    expect(ANALYSIS_JSON_SCHEMA.required).toEqual(["summary", "fee", "flags", "cleared"]);
+    expect(ANALYSIS_JSON_SCHEMA.required).toEqual(["summary", "fee", "flags", "cleared", "absent"]);
   });
 });
 

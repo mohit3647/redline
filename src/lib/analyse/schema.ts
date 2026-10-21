@@ -4,12 +4,14 @@
  * test keeps the two in step. Strict mode needs every property listed in `required` and
  * `additionalProperties: false`, so optional values are nullable instead.
  */
+import { ANCHOR_TYPES } from "./types";
+
 const nullableString = { type: ["string", "null"] } as const;
 
 export const ANALYSIS_JSON_SCHEMA = {
   type: "object",
   additionalProperties: false,
-  required: ["summary", "fee", "flags", "cleared"],
+  required: ["summary", "fee", "flags", "cleared", "absent"],
   properties: {
     summary: { type: "string" },
     fee: {
@@ -64,6 +66,10 @@ export const ANALYSIS_JSON_SCHEMA = {
           triggeredByRedLine: nullableString,
         },
       },
+    },
+    absent: {
+      type: "array",
+      items: { type: "string", enum: [...ANCHOR_TYPES] },
     },
     cleared: {
       type: "array",

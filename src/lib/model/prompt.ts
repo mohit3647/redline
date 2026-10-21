@@ -36,6 +36,10 @@ Put a clause in "cleared" when you checked it and it is acceptable, or when it i
 - payment terms of net 60 or net 90, including when no late interest applies. State the days and whether interest applies, exactly as written.
 - mandatory arbitration or a class-action waiver. State where and who picks the arbitrator, exactly as written.
 Also clear any of the flagged types, and any capped indemnity, limited IP assignment, or termination with a kill fee, when the text shows it is acceptable. State the limit as written. A wrong cleared entry tells the signer not to look, so clear a clause only when the quoted sentence supports every word of the finding. A clean document must still produce a populated cleared list.
+Never put payment terms or arbitration in "flags", whatever the terms say. Redline moves them to the cleared list if you do.
+
+ABSENT
+"absent" lists the anchor clause types the document has no clause for at all. The allowed values are "uncapped-indemnity", "ip-assignment" and "termination-for-convenience". List a type only after reading the whole document and finding no clause on that topic, capped or uncapped, limited or broad. If the document has any indemnity clause, do not list "uncapped-indemnity". If it has any IP assignment clause, do not list "ip-assignment". If it has any termination clause, do not list "termination-for-convenience". An absent type has no sentence to quote, so state it only when you are sure. Return an empty array when every anchor type appears or you are unsure.
 
 VOICE
 - Describe the text flatly and with full confidence. Write "The clause says the signer will pay all claims with no limit as to amount." Never write "appears to", "seems to", "may", "might", "could be read as" about what the text says.

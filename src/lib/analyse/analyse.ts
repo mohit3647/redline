@@ -1,4 +1,6 @@
+import { ANCHOR_TYPES } from "./types";
 import type {
+  AnchorType,
   Analysis,
   AnalyseOptions,
   AnalysisModel,
@@ -10,6 +12,34 @@ import type {
   RedLine,
   Severity,
 } from "./types";
+
+/**
+ * Clause types that are never flags (PRD §5, ADR 0003). Net-60/90 payment terms and mandatory
+ * arbitration are survivable and visible, so they rank low on expected cost. The prompt says so,
+ * and this table enforces it, because a prompt is a request and this is a guarantee.
+ */
+const CLEARED_ONLY_NOTES: Record<string, string> = {
+  "payment-terms":
+    "Listed here, not flagged. Redline ranks payment terms low on expected cost. Read the sentence for the days until payment and for any late interest.",
+  arbitration:
+    "Listed here, not flagged. Redline ranks mandatory arbitration low on expected cost. Read the sentence for where it is held and who picks the arbitrator.",
+};
+const CLEARED_ONLY_ALIASES: Record<string, string> = {
+  "mandatory-arbitration": "arbitration",
+  "class-action-waiver": "arbitration",
+};
+
+function clearedOnlyNote(clauseType: string): string | undefined {
+  const key = clauseType.trim().toLowerCase();
+  return CLEARED_ONLY_NOTES[CLEARED_ONLY_ALIASES[key] ?? key];
+}
+
+/** Word tests on a clause type's hyphen-separated words: a match shows the document has a clause on that topic. */
+const ANCHOR_WORDS: Record<AnchorType, (word: string) => boolean> = {
+  "uncapped-indemnity": (w) => w.startsWith("indemn"),
+  "ip-assignment": (w) => w === "ip",
+  "termination-for-convenience": (w) => w.startsWith("terminat"),
+};
 
 const SEVERITIES: readonly string[] = ["critical", "serious", "minor"];
 
@@ -80,7 +110,10 @@ function parseCleared(raw: unknown): Cleared | string {
   if (!clauseType) return "missing clauseType";
   if (!finding) return "missing finding";
   if (typeof raw.sourceSentence !== "string") return "missing sourceSentence";
-  return { clauseType, finding, sourceSentence: raw.sourceSentence };
+  const cleared: Cleared = { clauseType, finding, sourceSentence: raw.sourceSentence };
+  const note = clearedOnlyNote(clauseType);
+  if (note) cleared.note = note;
+  return cleared;
 }
 
 function parseFee(raw: unknown): { amount: number; currency: string; sourceSentence: string } | string {
@@ -109,7 +142,7 @@ export async function analyse(
 
   const raw = await model.analyse({ documentText, redLines, contractValue });
 
-  const result: Analysis = { summary: "", fee: { state: "unknown" }, flags: [], cleared: [], dropped };
+  const result: Analysis = { summary: "", fee: { state: "unknown" }, flags: [], cleared: [], absent: [], reclassified: [], dropped };
 
   if (!isObj(raw)) {
     drop({ kind: "payload", reason: "malformed", detail: "model payload is not an object" });
@@ -123,6 +156,7 @@ export async function analyse(
   }
 
   // Flags
+  const movedFlags: Cleared[] = [];
   if (raw.flags !== undefined && !Array.isArray(raw.flags)) {
     drop({ kind: "payload", reason: "malformed", label: "flags", detail: "flags is not an array" });
   }
@@ -147,6 +181,18 @@ export async function analyse(
         sourceSentence: parsed.sourceSentence,
         detail: check.reason === "empty-quote" ? "source sentence is empty" : "source sentence is not an exact substring of the document",
       });
+      continue;
+    }
+    // The source sentence is verified above, so a moved flag keeps it and the seam's guarantee holds.
+    const note = parsed.kind === "risk" ? clearedOnlyNote(parsed.clauseType) : undefined;
+    if (note) {
+      movedFlags.push({
+        clauseType: parsed.clauseType,
+        finding: parsed.claim,
+        sourceSentence: parsed.sourceSentence,
+        note,
+      });
+      result.reclassified.push({ id: parsed.id, clauseType: parsed.clauseType, from: "flag", to: "cleared" });
       continue;
     }
     result.flags.push(parsed);
@@ -180,6 +226,26 @@ export async function analyse(
       continue;
     }
     result.cleared.push(parsed);
+  }
+  result.cleared.push(...movedFlags);
+
+  // Absent anchors: a claim about the whole document, so no sentence to verify. Keep the model's
+  // claim only when nothing in the verified output contradicts it.
+  if (raw.absent !== undefined && !Array.isArray(raw.absent)) {
+    drop({ kind: "payload", reason: "malformed", label: "absent", detail: "absent is not an array" });
+  }
+  const seenTypes = [...result.flags, ...result.cleared].map((x) => x.clauseType.toLowerCase());
+  for (const item of Array.isArray(raw.absent) ? raw.absent : []) {
+    const anchor = (ANCHOR_TYPES as readonly unknown[]).includes(item) ? (item as AnchorType) : undefined;
+    if (!anchor) {
+      drop({ kind: "absent", reason: "malformed", label: typeof item === "string" ? item : undefined, detail: "not an anchor clause type" });
+      continue;
+    }
+    if (seenTypes.some((t) => t.split(/[^a-z0-9]+/).some(ANCHOR_WORDS[anchor]))) {
+      drop({ kind: "absent", reason: "contradicted", label: anchor, detail: "the analysis also lists a clause of this type" });
+      continue;
+    }
+    if (!result.absent.includes(anchor)) result.absent.push(anchor);
   }
 
   // Fee (ADR 0006): a supplied value wins; the model's fee is only used when none is supplied.

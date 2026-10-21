@@ -26,6 +26,12 @@ export interface StubOptions {
   mutateQuote?: Record<string, (quote: string) => string>;
   /** Replaces the whole payload, for malformed-output tests. */
   rawPayload?: unknown;
+  /** Extra risk flags appended as-is (the quote must still be real for it to survive). */
+  extraFlags?: Array<{ id: string; clauseType: string; sourceSentence: string }>;
+  /** Cleared ids to leave out of the payload. */
+  omitCleared?: string[];
+  /** Anchor types the stub claims are absent. */
+  absent?: string[];
   /** Called on each model invocation. */
   onCall?: () => void;
 }
@@ -77,11 +83,24 @@ export function stubModel(fixture: FixtureName, options: StubOptions = {}): Anal
           counterOffer: "n/a",
         });
       }
+      for (const e of options.extraFlags ?? []) {
+        flags.push({
+          id: e.id,
+          kind: "risk",
+          clauseType: e.clauseType,
+          severity: "serious",
+          sourceSentence: e.sourceSentence,
+          claim: `The document says: ${e.clauseType}.`,
+          consequence: { low: "Low estimate", high: "High estimate", basis: "Stub basis" },
+          counterOffer: `Replacement language for ${e.id}.`,
+        });
+      }
       return {
         summary: "Stub summary.",
+        absent: options.absent ?? [],
         fee: { ...sidecar.fee, sourceSentence: q("fee", sidecar.fee.sourceSentence) },
         flags,
-        cleared: sidecar.cleared.map((c) => ({
+        cleared: sidecar.cleared.filter((c) => !options.omitCleared?.includes(c.id)).map((c) => ({
           clauseType: c.clauseType,
           finding: c.finding,
           sourceSentence: q(c.id, c.sourceSentence),

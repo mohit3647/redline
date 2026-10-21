@@ -25,7 +25,25 @@ export interface Flag {
 export interface Cleared {
   clauseType: string;
   finding: string;
+  /** Verbatim substring of the document text. Never empty. */
   sourceSentence: string;
+  /** Why the entry sits here and not in the flags. Set in code, never by the model. */
+  note?: string;
+}
+
+/**
+ * The anchor clause types (PRD §5). When the document has no clause of the type, the analysis
+ * says so. That is a claim about the whole document, so it carries no source sentence.
+ */
+export const ANCHOR_TYPES = ["uncapped-indemnity", "ip-assignment", "termination-for-convenience"] as const;
+export type AnchorType = (typeof ANCHOR_TYPES)[number];
+
+/** A risk flag the pipeline moved to the cleared list because its clause type is never flagged. */
+export interface Reclassified {
+  id: string;
+  clauseType: string;
+  from: "flag";
+  to: "cleared";
 }
 
 export type Fee =
@@ -33,10 +51,10 @@ export type Fee =
   | { state: "supplied"; amount: number; currency: string }
   | { state: "unknown" };
 
-export type DropReason = "not-verbatim" | "empty-quote" | "malformed";
+export type DropReason = "not-verbatim" | "empty-quote" | "malformed" | "contradicted";
 
 export interface Dropped {
-  kind: "flag" | "cleared" | "fee" | "payload";
+  kind: "flag" | "cleared" | "fee" | "absent" | "payload";
   reason: DropReason;
   /** The clause id or type if one could be read from the raw item. */
   label?: string;
@@ -50,6 +68,10 @@ export interface Analysis {
   fee: Fee;
   flags: Flag[];
   cleared: Cleared[];
+  /** Anchor clause types the model found no clause for, after the contradiction check. */
+  absent: AnchorType[];
+  /** Flags moved to the cleared list by the pipeline (payment terms, arbitration). */
+  reclassified: Reclassified[];
   dropped: Dropped[];
 }
 

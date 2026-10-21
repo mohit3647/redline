@@ -443,6 +443,11 @@ footer { padding: 28px var(--gutter) 40px; border-top: 1px solid rgba(207, 213, 
 .flag-head { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; font: 800 1.2rem/1 var(--f-display); text-transform: uppercase; }
 .stamp-label { font: 800 .92rem/1 var(--f-stamp); letter-spacing: .08em; text-transform: uppercase; padding: 5px 8px 4px; border: 2px solid currentColor; color: var(--ink); }
 .stamp-label--critical { background: var(--crit); border-color: var(--ink); }
+.stamp-label--cleared { background: var(--kraft); border-color: var(--ink); }
+.stamp-label--absent { background: var(--bond); border-color: var(--ink); }
+.cleared-item { border-left: 6px solid var(--kraft-deep); padding-left: 18px; }
+.cleared-block--lead { border-top: 4px solid var(--kraft-deep); }
+.absent-note { margin-top: 28px; padding: 14px 18px; border: 2px dashed var(--ink-soft); max-width: 62ch; }
 .stamp-label--serious { background: var(--serious); border-color: var(--ink); }
 .block-label { font: 700 .8rem/1 var(--f-ui); font-stretch: 88%; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 8px; }
 .from-doc { margin: 16px 0 0; }

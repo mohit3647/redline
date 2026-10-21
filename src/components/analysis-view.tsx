@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { orderFlags } from '../lib/analyse/order';
-import type { Analysis, Flag } from '../lib/analyse/types';
+import type { AnchorType, Analysis, Flag } from '../lib/analyse/types';
 
 const SEVERITY_LABEL = { critical: 'Critical', serious: 'Serious', minor: 'Minor' } as const;
 
@@ -70,9 +70,56 @@ function RiskFlag({ flag, n }: { flag: Flag; n: number }) {
   );
 }
 
+const ANCHOR_LABEL: Record<AnchorType, string> = {
+  'uncapped-indemnity': 'uncapped indemnity',
+  'ip-assignment': 'IP assignment',
+  'termination-for-convenience': 'termination for convenience',
+};
+
+function ClearedList({ analysis }: { analysis: Analysis }) {
+  const noFlags = analysis.flags.length === 0;
+  return (
+    <section aria-labelledby="clear-h" className={`result-block cleared-block${noFlags ? ' cleared-block--lead' : ''}`}>
+      <h2 id="clear-h" className="intake-h">Cleared list</h2>
+      <p className="auth-body">This is what Redline checked and found acceptable, with the sentence each entry rests on.</p>
+      {analysis.cleared.length > 0 ? (
+        <ul className="flag-list">
+          {analysis.cleared.map((c, i) => (
+            <li key={`${c.clauseType}-${i}`} className="flag-item cleared-item">
+              <h3 className="flag-head">
+                <span className="stamp-label stamp-label--cleared">Cleared</span>
+                <span className="flag-type">{c.clauseType.replace(/-/g, ' ')}</span>
+              </h3>
+              <Quotation text={c.sourceSentence} />
+              <div className="reading">
+                <p className="block-label">Redline&rsquo;s reading</p>
+                <p className="reading-claim">{c.finding}</p>
+                {c.note ? <p className="reading-range">{c.note}</p> : null}
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="auth-body">Nothing was cleared.</p>
+      )}
+      {analysis.absent.length > 0 ? (
+        <div className="absent-note">
+          <p className="reading-claim">
+            <span className="stamp-label stamp-label--absent">Absent</span>{' '}
+            No clause found for: {analysis.absent.map((a) => ANCHOR_LABEL[a]).join(', ')}.
+          </p>
+          <p className="reading-range">
+            This is stated from the text Redline read. It has no sentence to quote, because nothing was found to quote.
+          </p>
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
 export function AnalysisView({ analysis }: { analysis: Analysis }) {
   const { ranked, confidentiality } = orderFlags(analysis.flags);
-  const dropped = analysis.dropped.filter((d) => d.kind !== 'payload').length;
+  const dropped = analysis.dropped.filter((d) => d.kind !== 'payload' && d.kind !== 'absent').length;
   return (
     <div className="result">
       <NotLegalAdvice />
@@ -95,7 +142,7 @@ export function AnalysisView({ analysis }: { analysis: Analysis }) {
             {ranked.map((f, i) => <RiskFlag key={f.id} flag={f} n={i + 1} />)}
           </ol>
         ) : (
-          <p className="auth-body">No clause in this document was flagged. The cleared list below shows what was checked.</p>
+          <p className="auth-body">No clause in this document was flagged. The cleared list below is what Redline checked and found acceptable.</p>
         )}
       </section>
 
@@ -116,25 +163,7 @@ export function AnalysisView({ analysis }: { analysis: Analysis }) {
         </section>
       ) : null}
 
-      <section aria-labelledby="clear-h" className="result-block">
-        <h2 id="clear-h" className="intake-h">Checked and found acceptable</h2>
-        {analysis.cleared.length > 0 ? (
-          <ul className="flag-list">
-            {analysis.cleared.map((c, i) => (
-              <li key={`${c.clauseType}-${i}`} className="flag-item">
-                <h3 className="flag-head"><span className="flag-type">{c.clauseType.replace(/-/g, ' ')}</span></h3>
-                <Quotation text={c.sourceSentence} />
-                <div className="reading">
-                  <p className="block-label">Redline&rsquo;s reading</p>
-                  <p className="reading-claim">{c.finding}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="auth-body">Nothing was cleared.</p>
-        )}
-      </section>
+      <ClearedList analysis={analysis} />
     </div>
   );
 }
