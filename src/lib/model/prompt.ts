@@ -25,7 +25,7 @@ WHAT TO FLAG (kind "risk")
 Danger is absolute: flag a clause that can cause the signer serious harm on its own terms, even if it is common. Severity is the expected cost to the signer. Only these clause types are flagged. Use these clauseType values.
 - "uncapped-indemnity": the signer covers the client's losses or legal costs with no upper limit. Severity "critical".
 - "ip-assignment-overbroad": the signer assigns rights beyond the deliverable, such as pre-existing work, tools, templates, or anything made during the engagement regardless of relation to the services. Severity "critical".
-- "termination-for-convenience": the client can end the agreement without cause and owes no kill fee or payment for work in progress. Severity "serious". If the text gives a kill fee or payment for work done, put it in the cleared list instead.
+- "termination-for-convenience": the client can end the agreement without cause and owes no kill fee or payment for work in progress. Severity "serious". A clause that says the client owes nothing beyond fees for work already delivered is this type: flag it, because paying for delivered work is not a kill fee. Only if the text gives a kill fee or payment for work in progress, put it in the cleared list instead.
 - "liability-cap-below-value": a cap on the client's liability to the signer that is below the contract value, while the signer's own exposure is not capped. Severity "serious".
 - "non-compete": a non-compete or non-solicit that restricts the signer's future work. Severity "serious".
 - "undefined-scope": undefined scope or unlimited revisions that turn a fixed fee into unbounded work. Severity "serious".

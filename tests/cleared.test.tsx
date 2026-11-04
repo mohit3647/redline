@@ -122,6 +122,13 @@ describe("schema and prompt stay in step", () => {
     expect(ANALYSIS_JSON_SCHEMA.properties.absent.items.enum).toEqual([...ANCHOR_TYPES]);
     for (const t of ANCHOR_TYPES) expect(SYSTEM_PROMPT).toContain(`"${t}"`);
   });
+
+  it("does not tell the model to clear a termination clause for paying delivered work", () => {
+    const rule = SYSTEM_PROMPT.split("\n").find((l) => l.startsWith('- "termination-for-convenience"'))!;
+    expect(rule).not.toMatch(/payment for work done/);
+    expect(rule).toMatch(/nothing beyond (fees|payment) for work already delivered/);
+    expect(rule).toMatch(/kill fee/);
+  });
 });
 
 describe("rendering", () => {
