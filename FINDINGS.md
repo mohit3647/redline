@@ -64,6 +64,25 @@ Quote checks note: Chrome's auto-translate rewrote the Spanish result page while
 - **What happened instead:** "Start with a new agreement. Reading and ranking its clauses comes in a later step." The step exists and works.
 - **Severity:** cosmetic.
 
+## Security review
+
+Read every tracked file outside tests, fixtures, lock files, `node_modules`, design and research notes: the three migrations, `supabase/config.toml`, `proxy.ts`, the sign-in/sign-out/callback code, both API routes and their handlers, every server action that touches the database, every `process.env` read, the upload parser and the components. Method and bar: Anthropic's `claude-code-security-review` instructions (three steps, 80 percent confidence, their hard exclusions: no denial of service, rate limiting, hardening-only or prompt-injection findings), applied to the whole code rather than a diff. I read the code only; I did not run an attack.
+
+What I checked and found sound: every table has row-level security with `to authenticated` policies scoped to `auth.uid()`; `analyses` inserts also require the document to be the signer's; no service-role key exists anywhere; the only secrets read are `OPENROUTER_API_KEY` and `OPENROUTER_MODEL`, on the server, and `.env*` is gitignored; `sanitizeNextPath` blocks open redirects in the sign-in callback; no `dangerouslySetInnerHTML` or `eval`; document ids are validated as UUIDs; production logging leaves out document text (`run.ts` logs the reason, not the quote); the file is parsed in the browser and only text is stored.
+
+### 11. Both model routes accept anonymous callers whenever Supabase is not configured
+- **Where:** `src/lib/analyse/handler.ts:46`, `src/lib/ask/handler.ts:23`, `app/api/analyse/route.ts:11`, `app/api/ask/route.ts:10`, `app/(app)/layout.tsx:11-13`.
+- **How it is used:** each route passes `configured: isSupabaseConfigured()` and only demands a signed-in user `if (deps.configured && ...)`. `isSupabaseConfigured()` is false when `NEXT_PUBLIC_SUPABASE_URL` or `NEXT_PUBLIC_SUPABASE_ANON_KEY` is missing or blank, and then the routes (and the `/app` pages) skip authentication. `proxy.ts` does not guard `/api/*`. On any deployment that has `OPENROUTER_API_KEY` and `OPENROUTER_MODEL` but lacks the two Supabase variables (a preview deployment is the likely case: those variables had to be added to Preview by hand), anyone on the internet can POST text to `/api/analyse` or `/api/ask` and spend the owner's OpenRouter credit, with no account.
+- **Condition:** needs a deployment with the model settings and without the Supabase ones. Production has all four, so it is not reachable there today.
+- **Fix:** fail closed. Return 401 (or 503) from both routes when Supabase is unconfigured, unless an explicit development flag allows it.
+- **Severity:** medium.
+
+### 12. The magic-link return address is built from request headers
+- **Where:** `src/lib/auth/actions.ts:12-17` and `:30` (`siteOrigin()` into `emailRedirectTo`).
+- **How it is used:** the origin comes from `x-forwarded-host`, then `host`, then falls back to `localhost:3000`. Anyone can call the `sendMagicLink` server action for any email address. If the Supabase project's redirect allow-list is broad (a wildcard for preview domains, for example) and a request reaches the app with a forged forwarded host, the emailed sign-in link can point at an attacker's host and hand it the one-time code. Supabase checks the address against its allow-list and PKCE ties the code to the browser that asked, so I judge this hard to exploit as configured. I could not see the production allow-list from the code, which is why this is not rated higher.
+- **Fix:** build the address from a fixed setting such as `NEXT_PUBLIC_SITE_URL`, not from request headers, and keep the Supabase allow-list to exact addresses.
+- **Severity:** low.
+
 ## Seen once
 
 - **Long document, fee shown as unknown, and one flag with no counter-offer.** On the 126,000-character agreement (fee "$9,000, payable within 30 days of each invoice" in the second paragraph), the result said "Fee unknown… Serious or minor depends on the fee, which this document does not state" while its own cleared list quoted "The fee is $9,000…". The non-compete flag showed "No counter-offer drafted", so "1 flag has no counter-offer drafted". The re-run failed with a provider error, so I could not repeat it. PRD §3 capability 6 promises a counter-offer for each flagged clause. If it repeats it misleads a reader.
