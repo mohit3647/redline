@@ -121,10 +121,17 @@ describe("ticket 08: counter-offers", () => {
     expect(COPY_FAILED_MESSAGE.length).toBeGreaterThan(0);
   });
 
-  it("the prompt allows unusual framing only inside the counter-offer and bars unsupported claims", () => {
-    expect(SYSTEM_PROMPT).toContain("You may call a clause unusual, and only inside the counter-offer");
+  it("the prompt bars unsupported claims and requires a counter-offer for every flag", () => {
     expect(SYSTEM_PROMPT).toContain("Say nothing about the document that its text does not support");
     expect(SYSTEM_PROMPT).toContain("Every flag, including a confidentiality flag, carries a counter-offer");
+  });
+
+  it("the prompt makes no market claim in a counter-offer and requires text addressed to the client", () => {
+    const section = SYSTEM_PROMPT.slice(SYSTEM_PROMPT.indexOf("COUNTER-OFFER\n"), SYSTEM_PROMPT.indexOf("RED LINES\n"));
+    expect(section).not.toMatch(/most clients/i);
+    expect(section).not.toMatch(/unusual/i);
+    expect(section).toContain("addressed to the client");
+    expect(section).toContain("never to the signer");
   });
 });
 
