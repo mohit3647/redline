@@ -32,6 +32,7 @@ Quote checks note: Chrome's auto-translate rewrote the Spanish result page while
 - **Severity:** stops a reader.
 
 ### 5. A document that is not an agreement gets no explanation
+- **Status: fixed** on branch `fix-critical-findings`, in part. Short readable text such as "Hello world" is now refused as too short, and the scan message is kept for files with no characters. When the model finds nothing it can quote, the message now says so and that retrying will not help if the text is not a full agreement. Redline still does not detect that a text is a recipe and gives no summary for it; that would need a schema and prompt change checked against the live model.
 - **Steps:** /app/new → acknowledge → answer yes → feed a three-sentence cookie recipe → "Save this text" → "Analyse this agreement".
 - **PRD promises:** §6 decision 7: "'no flags found' is indistinguishable from a failed upload"; §3 capability 5: "A clean document never produces an empty screen (ADR 0004)."
 - **What happened instead:** The recipe was accepted as an agreement and saved to the library (shown as "cookies — Not analysed yet"). Analysis ended with "The model's answer held no flag and no cleared clause that could be matched to a sentence in the document. Nothing is shown rather than a guess. Try again." It never says the text is not a contract, there is no summary, and it invites a retry that costs credit. "Hello world" was rejected with the "could not find readable text" scan message, which is also the wrong reason.

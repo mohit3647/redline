@@ -29,6 +29,23 @@ describe("usable-text rule", () => {
   });
 });
 
+describe("short readable text", () => {
+  it("is refused as too short, not as an unreadable scan", () => {
+    const r = assessText("Hello world");
+    expect(r.ok).toBe(false);
+    if (!r.ok) {
+      expect(r.reason).toBe("too-short");
+      expect(r.message).toMatch(/too little/);
+      expect(r.message).not.toMatch(/could not find readable text/);
+    }
+  });
+  it("keeps the scan message for a file with no characters at all", () => {
+    const r = assessText(" \n\t ");
+    expect(!r.ok && r.reason).toBe("no-text");
+    expect(!r.ok && r.message).toMatch(/could not find readable text/);
+  });
+});
+
 describe("parseFile", () => {
   for (const name of ["adhesion-contract", "clean-contract"]) {
     it(`round-trips ${name}.txt byte for byte`, async () => {

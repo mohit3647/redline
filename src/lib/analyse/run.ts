@@ -26,7 +26,7 @@ const MESSAGES: Record<FailureReason, string> = {
   "provider-error": "The model provider did not return an answer. Nothing was analysed. Try again in a moment.",
   "malformed-output": "The model answered in a form Redline could not read. Nothing was analysed. Try again.",
   "no-valid-analysis":
-    "The model's answer held no flag and no cleared clause that could be matched to a sentence in the document. Nothing is shown rather than a guess. Try again.",
+    "Redline found no clause in this text that it could quote, so it shows nothing rather than a guess. If this text is not a full agreement, trying again will not help. If it is, you can try once more.",
 };
 
 export function failure(reason: FailureReason): AnalysisOutcome {

@@ -129,6 +129,12 @@ describe("explicit failure states", () => {
   it("empty flags and empty cleared is 'no valid analysis'", async () => {
     expect(await run(() => orResponse(JSON.stringify({ summary: "s", fee: null, flags: [], cleared: [] })))).toMatchObject({ status: "failed", reason: "no-valid-analysis" });
   });
+  it("the no-valid-analysis message says nothing could be quoted, and does not just say 'try again'", async () => {
+    const out = await run(() => orResponse(JSON.stringify({ summary: "s", fee: null, flags: [], cleared: [] })));
+    expect(out.status === "failed" && out.message).toMatch(/no clause/i);
+    expect(out.status === "failed" && out.message).toMatch(/not a full agreement/i);
+    expect(out.status === "failed" && out.message).not.toMatch(/^.*Nothing is shown rather than a guess\. Try again\.$/);
+  });
   it("only hallucinated flags and no cleared is 'no valid analysis'", async () => {
     const payload = await payloadFor("adhesion-contract", { hallucinatedQuote: "Not in the text." });
     const p = payload as { flags: unknown[]; cleared: unknown[] };
