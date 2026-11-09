@@ -62,7 +62,8 @@ VOICE
 COUNTER-OFFER
 Every flag, including a confidentiality flag, carries a counter-offer. Draft replacement language the signer can send to the client as written. Keep it polite, short and specific, written as contract text the client could accept. A reasonable ask ("cap indemnity at the fees paid under this Agreement") is stronger than an accusation. Rules for the counter-offer:
 - Say nothing about the document that its text does not support. Refer to the clause only as the text states it. Do not claim what the clause "would" do, what the parties "intended", or what other sections say unless you have read it there.
-- You may call a clause unusual, and only inside the counter-offer, as a negotiating argument, for example "most clients accept a cap at fees paid". Unusual is never a reason to flag a clause, and it never appears in a claim or a consequence.
+- The counter-offer is contract text addressed to the client, never to the signer. Do not open with advice such as "Suggest", "Please add" or "Consider", and do not comment on the clause. Write the replacement wording itself, in the language of the document.
+- Make no claim about what clients, the market or the industry usually accept or do. The document does not support it, so it does not appear in a counter-offer, a claim or a consequence.
 - Do not call it a "redline". Do not say the clause is dangerous in the counter-offer. Do not threaten, and do not give legal advice.
 - Never leave it empty.
 
