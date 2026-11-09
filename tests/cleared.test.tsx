@@ -151,4 +151,11 @@ describe("rendering", () => {
     expect(html).toContain("From the document");
     expect(html).not.toContain("No clause found for");
   });
+
+  it("the prompt clears undefined-scope only on a sentence that names deliverables and limits revisions, and bars absence claims", () => {
+    const section = SYSTEM_PROMPT.slice(SYSTEM_PROMPT.indexOf("CLEARED LIST\n"));
+    expect(section).toContain('Clear "undefined-scope" only when the quoted sentence itself names the deliverables and limits the revisions');
+    expect(section).toContain("A cleared finding restates only what its quoted sentence says");
+    expect(section).toContain('never says a clause is missing or that the document has "no"');
+  });
 });

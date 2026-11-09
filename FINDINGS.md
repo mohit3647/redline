@@ -19,6 +19,7 @@ Quote checks note: Chrome's auto-translate rewrote the Spanish result page while
 - **Severity:** misleads a reader.
 
 ### 3. The cleared list says a one-line scope is "fixed and defined"
+- **Status: fixed** on branch `fix-critical-findings`, at the prompt level. The cleared-list rules now clear `undefined-scope` only when the quoted sentence names the deliverables and limits the revisions, and bar a cleared finding from saying a clause is missing. The model's behaviour is not reproducible in the test suite; check by running the Northwind document and the Spanish contract several times and reading the cleared list.
 - **Steps:** Same as finding 1 (first run). The Spanish contract did the same.
 - **PRD promises:** §3 capability 5: "the clauses Redline checked and found acceptable, named individually with what it found". §5 lists "Undefined scope or unlimited revisions" as a Serious flag. CLAUDE.md: "State only what the document says."
 - **What happened instead:** The cleared entry "Scope defined" read "The scope is fixed and defined as designing a marketing website for a fixed fee, with no unlimited revisions clause." The only scope sentence was "Contractor will design a marketing website for a fixed fee of $4,000, payable within 90 days of delivery." It names no pages, deliverables or revision limit. The Spanish contract's one-sentence scope was likewise cleared as "una descripción de servicios específica en lugar de un alcance ilimitado". The re-run of the English document dropped this entry, so it is inconsistent as well.
