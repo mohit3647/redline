@@ -51,6 +51,8 @@ export async function runAnalysis(
   } catch (e) {
     if (e instanceof ModelConfigError) return failure("missing-key");
     if (e instanceof ModelOutputError) return failure("malformed-output");
+    // Name and status only, never the message or any document text, so a failure can be traced.
+    console.warn(`[redline] provider-error: ${e instanceof Error ? e.name : "unknown"}${e instanceof ModelProviderError && e.status ? ` HTTP ${e.status}` : ""}`);
     return failure("provider-error");
   }
   if (analysis.flags.length === 0 && analysis.cleared.length === 0) return failure("no-valid-analysis");

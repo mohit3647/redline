@@ -25,6 +25,7 @@ Quote checks note: Chrome's auto-translate rewrote the Spanish result page while
 - **Severity:** misleads a reader.
 
 ### 4. Analyses, questions and the value form often fail with "The model provider did not return an answer"
+- **Status: fixed** on branch `fix-critical-findings`, as far as the code shows. The model call now retries once on the same pinned zero-data-retention route after a dropped connection, a 429 or a 5xx, and the server log now names the error and status. The underlying cause of the failures seen live is not confirmed; check by running the clean fixture several times against the live model.
 - **Steps:** Analyse a document or ask a question; failures seen on re-running the 126,000-character document, on the first analysis of the clean fixture (a 5,000-character contract), on a question about clause 5.1, and as a stale alert after "Re-tier with this value". Clicking "Try again" on the clean fixture succeeded the second time.
 - **PRD promises:** §3 capabilities 3–7: the summary, flags, counter-offers, cleared list and question box.
 - **What happened instead:** The message is clear ("Nothing was analysed. Try again in a moment.") and nothing wrong is shown, but a reader hit it on roughly three of eight analyses. Each failed attempt may still have spent model credit, which I cannot see from the browser.

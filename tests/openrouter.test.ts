@@ -143,6 +143,27 @@ describe("explicit failure states", () => {
     stubFetch(() => { throw new TypeError("fetch failed"); });
     expect(await runAnalysis({ text: "x", redLines: [] }, model())).toMatchObject({ reason: "provider-error" });
   });
+  it("retries once after a 503 on the same request and returns the answer", async () => {
+    const good = JSON.stringify(await payloadFor("adhesion-contract"));
+    let n = 0;
+    const f = stubFetch(() => (++n === 1 ? orResponse({ error: { message: "upstream" } }, 503) : orResponse(good)));
+    const out = await runAnalysis({ text: adhesion.text, redLines: [] }, model());
+    expect(out).toMatchObject({ status: "ok" });
+    expect(f).toHaveBeenCalledTimes(2);
+    expect(JSON.parse(String(f.mock.calls[1][1]?.body)).provider).toEqual(JSON.parse(String(f.mock.calls[0][1]?.body)).provider);
+  });
+  it("retries a network failure once, then gives up as provider-error after two calls", async () => {
+    const f = stubFetch(() => { throw new TypeError("fetch failed"); });
+    expect(await runAnalysis({ text: "x", redLines: [] }, model())).toMatchObject({ reason: "provider-error" });
+    expect(f).toHaveBeenCalledTimes(2);
+  });
+  it("does not retry a refusal that a second try cannot change (404, 401)", async () => {
+    for (const status of [404, 401]) {
+      const f = stubFetch(() => orResponse({ error: { message: "no" } }, status));
+      await runAnalysis({ text: "x", redLines: [] }, model());
+      expect(f).toHaveBeenCalledTimes(1);
+    }
+  });
   it("missing key is missing-key", async () => {
     const out = await runAnalysis({ text: "x", redLines: [] }, createOpenRouterModel(() => ({})));
     expect(out).toMatchObject({ status: "failed", reason: "missing-key" });

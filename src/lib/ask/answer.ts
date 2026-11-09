@@ -1,5 +1,5 @@
 import { checkQuote } from "../analyse/analyse";
-import { ModelConfigError, ModelOutputError } from "../analyse/run";
+import { ModelConfigError, ModelOutputError, ModelProviderError } from "../analyse/run";
 import type { Answer, AskDropped, AskFailureReason, AskModel } from "./types";
 
 const MESSAGES: Record<AskFailureReason, string> = {
@@ -39,6 +39,7 @@ export async function answerQuestion(
   } catch (e) {
     if (e instanceof ModelConfigError) return askFailure("missing-key");
     if (e instanceof ModelOutputError) return askFailure("malformed-output");
+    log(`[redline] provider-error: ${e instanceof Error ? e.name : "unknown"}${e instanceof ModelProviderError && e.status ? ` HTTP ${e.status}` : ""}`);
     return askFailure("provider-error");
   }
   if (!isObj(raw)) return askFailure("malformed-output");

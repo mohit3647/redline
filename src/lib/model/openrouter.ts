@@ -52,17 +52,32 @@ export async function callOpenRouter(env: OpenRouterEnv, messages: ChatMessage[]
   if (!key) throw new ModelConfigError("OPENROUTER_API_KEY is not set");
   if (!model) throw new ModelConfigError("OPENROUTER_MODEL is not set");
 
-  let res: Response;
-  try {
-    res = await fetch(OPENROUTER_URL, {
+  // One more try on the same pinned zero-data-retention route after a dropped connection, a 429 or a 5xx.
+  // Not after a timeout (the route limits would be exceeded) and not after a refusal a second try cannot change.
+  const send = () =>
+    fetch(OPENROUTER_URL, {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify(buildChatBody(model, messages, schemaName, schema)),
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
-  } catch (e) {
-    throw new ModelProviderError(`request to OpenRouter failed: ${e instanceof Error ? e.name : "unknown"}`);
+  let res: Response | undefined;
+  let failure = "unknown";
+  for (let attempt = 1; attempt <= 2 && !res; attempt++) {
+    try {
+      const r = await send();
+      if (attempt === 1 && (r.status === 429 || r.status >= 500)) {
+        failure = `HTTP ${r.status}`;
+        await r.body?.cancel();
+        continue;
+      }
+      res = r;
+    } catch (e) {
+      failure = e instanceof Error ? e.name : "unknown";
+      if (failure === "TimeoutError" || failure === "AbortError") break;
+    }
   }
+  if (!res) throw new ModelProviderError(`request to OpenRouter failed: ${failure}`);
 
   let body: unknown;
   try {
