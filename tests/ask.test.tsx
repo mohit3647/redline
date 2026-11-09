@@ -153,7 +153,7 @@ describe("OpenRouter ask model", () => {
 
 describe("POST /api/ask handler", () => {
   const model = stub({ kind: "cited", answer: "A", sourceSentences: [real] });
-  const deps = (over = {}) => ({ configured: false, getUser: async () => null, model, ...over });
+  const deps = (over = {}) => ({ getUser: async () => ({ id: "u" }), model, ...over });
   const post = (body: unknown, d = deps()) =>
     handleAsk(new Request("http://x/api/ask", { method: "POST", body: typeof body === "string" ? body : JSON.stringify(body) }), d);
 
@@ -162,11 +162,15 @@ describe("POST /api/ask handler", () => {
     expect(res.status).toBe(200);
     expect(await res.json()).toMatchObject({ kind: "cited", sourceSentences: [real] });
   });
-  it("requires sign-in when Supabase is configured", async () => {
-    const res = await post({ text: "t", question: "q" }, deps({ configured: true }));
+  it("returns 401 to a signed-out caller even when Supabase is not configured, and never calls the model", async () => {
+    const ask = vi.fn(model.ask);
+    const res = await post({ text: adhesion.text, question: "q" }, deps({ configured: false, getUser: async () => null, model: { ask } }));
     expect(res.status).toBe(401);
     expect((await res.json()).reason).toBe("signed-out");
-    expect((await post({ text: adhesion.text, question: "q" }, deps({ configured: true, getUser: async () => ({ id: "u" }) }))).status).toBe(200);
+    expect(ask).not.toHaveBeenCalled();
+  });
+  it("requires a signed-in user", async () => {
+    expect((await post({ text: "t", question: "q" }, deps({ getUser: async () => null }))).status).toBe(401);
   });
   it.each([
     ["not json", "{"],

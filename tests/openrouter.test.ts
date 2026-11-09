@@ -156,18 +156,24 @@ describe("explicit failure states", () => {
 describe("API handler", () => {
   const req = (body: unknown) => new Request("http://x/api/analyse", { method: "POST", body: typeof body === "string" ? body : JSON.stringify(body) });
   const okModel = stubModel("adhesion-contract");
-  const deps = (over = {}) => ({ configured: false, getUser: async () => null, model: okModel, ...over });
+  const deps = (over = {}) => ({ getUser: async () => ({ id: "u" }), model: okModel, ...over });
 
-  it("returns the analysis without a user when Supabase is not configured", async () => {
+  it("returns 401 to a signed-out caller even when Supabase is not configured, and never calls the model", async () => {
+    const analyse = vi.fn(okModel.analyse);
+    const res = await handleAnalyse(req({ text: adhesion.text }), deps({ configured: false, getUser: async () => null, model: { analyse } }));
+    expect(res.status).toBe(401);
+    expect((await res.json()).reason).toBe("signed-out");
+    expect(analyse).not.toHaveBeenCalled();
+  });
+  it("returns the analysis to a signed-in user", async () => {
     const res = await handleAnalyse(req({ text: adhesion.text }), deps());
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body.status).toBe("ok");
     expect(body.analysis.flags.length).toBeGreaterThan(0);
   });
-  it("requires a signed-in user when configured", async () => {
-    expect((await handleAnalyse(req({ text: adhesion.text }), deps({ configured: true }))).status).toBe(401);
-    expect((await handleAnalyse(req({ text: adhesion.text }), deps({ configured: true, getUser: async () => ({ id: "u" }) }))).status).toBe(200);
+  it("requires a signed-in user", async () => {
+    expect((await handleAnalyse(req({ text: adhesion.text }), deps({ getUser: async () => null }))).status).toBe(401);
   });
   it("rejects bad requests", async () => {
     expect((await handleAnalyse(req("not json"), deps())).status).toBe(400);

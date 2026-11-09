@@ -151,7 +151,7 @@ describe("red lines reach the model", () => {
     const model = { analyse: async (i: { redLines: RedLine[] }) => { seen = i.redLines; return payload({ triggeredByRedLine: RED_LINE }); } };
     const res = await handleAnalyse(
       new Request("http://x", { method: "POST", body: JSON.stringify({ text: clean.text, redLines: [{ text: `  ${RED_LINE} ` }] }) }),
-      { configured: false, getUser: async () => null, model },
+      { getUser: async () => ({ id: "u" }), model },
     );
     const body = await res.json();
     expect(seen).toEqual(redLines);
@@ -165,7 +165,7 @@ describe("red lines reach the model", () => {
 describe("handler validation", () => {
   const post = (redLinesBody: unknown) =>
     handleAnalyse(new Request("http://x", { method: "POST", body: JSON.stringify({ text: "some text", redLines: redLinesBody }) }), {
-      configured: false, getUser: async () => null, model: { analyse: async () => payload({}) },
+      getUser: async () => ({ id: "u" }), model: { analyse: async () => payload({}) },
     });
   const lines = (n: number) => Array.from({ length: n }, (_, i) => ({ text: `line ${i}` }));
 

@@ -2,8 +2,6 @@ import { answerQuestion, askFailure } from "./answer";
 import type { Answer, AskModel } from "./types";
 
 export interface AskHandlerDeps {
-  /** True when Supabase is configured: a signed-in user is then required. */
-  configured: boolean;
   getUser: () => Promise<{ id: string } | null>;
   model: AskModel;
 }
@@ -20,7 +18,7 @@ const bad = (message: string, reason: "signed-out" | "bad-request", status: numb
 
 /** POST {text, question} -> Answer. Document text and question are never logged. */
 export async function handleAsk(request: Request, deps: AskHandlerDeps): Promise<Response> {
-  if (deps.configured && !(await deps.getUser())) return bad("Sign in to ask about an agreement.", "signed-out", 401);
+  if (!(await deps.getUser())) return bad("Sign in to ask about an agreement.", "signed-out", 401);
   let body: unknown;
   try {
     body = await request.json();

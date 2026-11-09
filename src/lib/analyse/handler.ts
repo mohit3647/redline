@@ -4,8 +4,6 @@ import { checkRedLineText, MAX_RED_LINES } from "../red-lines/rules";
 import type { AnalysisModel, ContractValue, RedLine } from "./types";
 
 export interface HandlerDeps {
-  /** True when Supabase is configured: a signed-in user is then required. */
-  configured: boolean;
   getUser: () => Promise<{ id: string } | null>;
   model: AnalysisModel;
 }
@@ -43,7 +41,7 @@ function parseValue(v: unknown): ContractValue | undefined | null {
  * Failures are returned as {status:"failed", reason, message} with a matching HTTP status.
  */
 export async function handleAnalyse(request: Request, deps: HandlerDeps): Promise<Response> {
-  if (deps.configured && !(await deps.getUser())) {
+  if (!(await deps.getUser())) {
     return json({ status: "failed", reason: "signed-out", message: "Sign in to analyse an agreement." }, 401);
   }
   let body: unknown;
